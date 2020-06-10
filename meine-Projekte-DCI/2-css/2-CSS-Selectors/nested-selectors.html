@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSS Nested Selectors</title>
+    <link rel="stylesheet" href="./css/nested-selectors.css">
+</head>
+<body>
+    <!-- div>p+div*2>p  vsCode shortcut -->
+    <div class="divClass">
+        <p>paragraph1</p>
+        <article>I am an Article
+            <p>I am a paragraph inside an article</p>
+        </article>
+        <div>
+            <p>paragraph2</p>
+            <article>I am an article after paragraph2</article>
+        </div>
+        <div>
+            <p>paragraph3</p>
+        </div>
+    </div>
+</body>
+</html>

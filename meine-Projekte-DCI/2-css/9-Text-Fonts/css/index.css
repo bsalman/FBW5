@@ -1,0 +1,34 @@
+@font-face{
+    font-family: myFont;
+    src: url(../fonts/1.ttf);
+}
+@font-face{
+    font-family: myFont1;
+    src: url(../fonts/2.ttf);
+}
+@font-face{
+    font-family: myFont2;
+    src: url(../fonts/3.ttf);
+    
+}
+
+article h1{
+    font-family: myFont1;
+}
+article p{
+    font-family: myFont2;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+/* font-family: 'Gochi Hand', cursive;
+font-family: 'Handlee', cursive;
+font-family: 'Just Another Hand', cursive;
+font-family: 'Shrikhand', cursive; */
+section h1{
+    font-family: 'Gochi Hand', cursive;
+}
+section p{
+    font-family: 'Handlee', cursive;
+}

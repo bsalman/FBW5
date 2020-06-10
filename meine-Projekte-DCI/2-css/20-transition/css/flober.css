@@ -1,0 +1,15 @@
+.contenr{
+    width: 70%;
+}
+
+.flot1{
+    width: 400px;
+    height: 600px;
+    background-color: lightgreen;
+    transition-property: transform,width;
+    transition-duration: 2s;
+}
+
+.flot1:hover{
+    transform: rotatey(200deg);
+}

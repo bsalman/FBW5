@@ -1,0 +1,18 @@
+.somediv{
+    /*color name*/
+    /* background-color: black; */
+
+    /*RGB*/
+    /* background-color:rgb(138, 165, 238) ; */
+
+    /*RGBA*/
+    /* background-color: rgba(0, 0, 0,0.5); */
+
+    /*Hex color*/
+    background-color:#00ff00;
+
+    height: 100vh;
+    position: absolute;
+    width: 100vw;
+
+}

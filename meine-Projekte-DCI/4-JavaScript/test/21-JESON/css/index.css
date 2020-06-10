@@ -1,0 +1,9 @@
+.container{
+  
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+}
+.ddd{
+    width: 200px;
+}

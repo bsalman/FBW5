@@ -1,0 +1,17 @@
+.contenr{
+    height: 200px;
+    width: 200px;
+    background-color: red;
+    /* overflow: hidden;
+    overflow: scroll;
+    overflow-y: scroll; */
+    overflow-x: scroll;
+}
+.contenr::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE and Edge */
+  .contenr {
+    -ms-overflow-style: none;
+  }

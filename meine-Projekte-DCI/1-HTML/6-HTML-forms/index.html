@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML Forms</title>
+</head>
+<body>
+    <form action="/contactus" method="GET">
+        <input type="text" name="username" placeholder="enter your name">
+        <br>
+        <input type="email" name="useremail" placeholder="enter your email">
+        <br>
+        <textarea name="usermessage" style="resize: none;"  cols="30" rows="10" placeholder="write your message"></textarea>
+        <br>
+        <input type="password" name="userpassword" placeholder="password">
+        <br>
+        <label for="status">Married:</label>  <input type="checkbox" id="status" name="married" value="true" >
+        <br>
+        The Gender: <br>
+        <input type="radio" id="radio1" name="gender" value="Female" > <label for="radio1">Female</label>  <br>
+        <input type="radio" id="radio2" name="gender" value="Male" > <label for="radio2">Male</label> <br>
+        <input type="radio" id="radio3" name="gender" value="other" > <label for="radio3">Other</label> <br>
+        <input type="submit" value="send">
+
+    </form>
+</body>
+</html>

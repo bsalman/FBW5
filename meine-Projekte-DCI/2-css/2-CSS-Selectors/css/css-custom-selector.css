@@ -1,0 +1,18 @@
+.table{
+    width: 100%;
+}
+ /* the following selector will select tr if tr was the first element inside any elemenet */
+/* tr:first-child{
+    background-color: gray;
+}  */
+/* select odd rows or we can use 2n+1 */
+tr:nth-child(odd){
+    background: gray;
+}
+/* select even rows or we can use 2n */
+tr:nth-child(even){
+    background: lightyellow;
+}
+tr:nth-child(3n){
+    background: red;
+}

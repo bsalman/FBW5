@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav{
+    margin: 10px;
+    text-align: center;
+    position: sticky;
+    top: 20px;
+    
+}
+nav > ul > li{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    background-color: gray;
+    text-align: center;
+    padding-top:7px;
+   margin-left: 50px;
+    border-radius: 0 10px 0 10px;
+}
+nav > ul > li > label{
+    text-decoration: none;
+    display: block;
+    color: white;
+}
+
+nav > ul > li:hover{
+    background-color: rgb(56, 53, 53);
+    box-shadow: 5px 5px 5px black;
+    font-size: 18px;
+    padding-top:5px;
+}
+.somediv{
+    height: 60vh;
+    background:linear-gradient(to right top, rgba(25, 112, 194, 0.705),black,
+     rgba(170, 66, 218, 0.911));
+    background-size: cover;clip-path:polygon(0 0, 100% 0, 100% 50%, 0 100%);
+}
+input + div, input{
+    display: none;
+}
+input:checked + div{
+    display: block;
+}

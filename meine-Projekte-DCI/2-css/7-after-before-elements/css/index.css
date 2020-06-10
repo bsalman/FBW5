@@ -1,0 +1,20 @@
+.list li::after{
+    /*::after pseudo Element requires a (content) style */
+    content: ".";
+    /* display: block;
+    width: 50px;
+    height: 50px; */
+}
+.list li::before{
+    content: "\00a0 \00a0" ;
+}
+p::first-line{
+    color: white;
+    background-color: blue;
+}
+p::first-letter{
+    font-size: 30px;
+}
+p::selection{
+    background-color: yellow;
+}

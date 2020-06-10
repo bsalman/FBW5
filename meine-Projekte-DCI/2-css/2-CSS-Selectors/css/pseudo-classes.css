@@ -1,0 +1,6 @@
+.somelink:visited{
+    color:red;
+}
+.somelink:active{
+    color:green;
+}

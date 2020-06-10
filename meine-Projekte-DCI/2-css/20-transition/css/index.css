@@ -1,0 +1,29 @@
+.somdiv{
+    position: relative;
+    height: 200px;
+    width: 200px;
+    background-color: aqua;
+    transition-property:transform,width;
+    transition-duration: 2s;
+}
+.span{
+    transition-property: transform,top,left;
+    transition-duration: 4s;
+    position: absolute;
+    top: 0;left: 0;
+}
+.container:hover .somdiv{
+    background-color: lightpink;
+    transform: rotatey(200deg)
+}
+
+.somdiv:hover .span{
+    
+   
+        background-color: blue;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        
+    
+}

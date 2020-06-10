@@ -1,0 +1,24 @@
+
+/* all texts are red */
+/* .divClass{
+    color: red;
+} */
+
+/*only paragraphs are red*/
+/* p{
+    color: red;
+} */
+
+/*only the paragraph inside article element is red*/
+/* article p{
+    color: red;
+} */
+
+/*only the paragraph which is directly inside the element with class "divClass" */
+/* .divClass > p{
+    color:red;
+} */
+
+.divClass div p, .divClass>p{
+    color: red;
+}

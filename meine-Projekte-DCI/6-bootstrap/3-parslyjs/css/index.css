@@ -1,0 +1,11 @@
+.FormContainer{
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    width: 50vw;
+   background-color:rgb(97, 172, 172);
+   padding: 10px;
+   border-radius: 10px;
+   box-shadow: 3px 3px 3px rgb(127, 158, 148) ;
+
+}

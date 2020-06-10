@@ -1,0 +1,32 @@
+.flexDiv{
+display: inline-flex;
+vertical-align: top;
+width: 200px;
+/*children layaut direction*/
+flex-direction: column;/*column*//*column-reverse*//*row*/
+/*the behavuir that the clidren will do when the contenerwidht less than the sum of thier width*/
+/*flex-wrap:wrap;wrap,nowrap,wrap-reverse*/
+/* flex-flow: row wrap; *//*shorthand for flex-directionamd flex-wrap*/
+flex-wrap:wrap;
+/*align children horizontal*/
+justify-content:space-around;/*center,flex-end,flex-start,space-around,space-between*/
+/*align childern verticly*/
+align-items: center;/*center,flex-start,flex-end*/
+background-color:lightgray;
+}
+.flexDiv>div{
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+    line-height: 100px;
+    background-color: rgb(255, 0, 64);
+    color: white;
+}
+.nexDiv{
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+    background-color: greenyellow;
+
+}

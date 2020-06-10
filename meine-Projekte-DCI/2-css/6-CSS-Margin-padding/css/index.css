@@ -1,0 +1,17 @@
+/* *, ::after, ::before{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+.somespan1{
+    background-color: red;
+    margin-right: 2px;
+    padding-right: 10px;
+    
+}
+.somespan2{
+    background-color: blue;
+    margin-left: 0;
+    /* margin: 10px 50px 1px 5px; */
+    
+}

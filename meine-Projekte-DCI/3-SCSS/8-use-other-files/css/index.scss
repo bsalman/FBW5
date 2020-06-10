@@ -1,0 +1,6 @@
+@import "setting";
+
+
+.button{
+    @include groupclass;
+}

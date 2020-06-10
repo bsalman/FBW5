@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSS Specificity</title>
+    <link rel="stylesheet" href="./css/CSS-Specificity.css">
+</head>
+<body>
+    <!-- p>lorem -->
+    <p id="par" class="bar">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum inventore ratione, quis quae adipisci et ad omnis corporis nihil, dolore aliquid saepe iure eveniet accusamus cum, nam eaque quod. Facilis.</p>
+    <p class="bar someclass">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur, aliquam ratione! Aliquid dolore sunt libero ipsam impedit deserunt soluta fuga necessitatibus at facere! Voluptatibus sapiente quis similique saepe porro animi!</p>
+    <!-- div.somediv>p+div>p -->
+    <div class="somediv">
+        <p>paragraph 1</p>
+        <div>
+            <p>paragraph 2</p>
+        </div>
+    </div>
+</body>
+</html>

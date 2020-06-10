@@ -1,0 +1,17 @@
+@mixin ahmadProps {
+    color: red;
+    font-size: 50px;
+    border: 5px solid blue;
+}
+.container{
+    @include ahmadProps();
+    box-shadow: 5px 5px 5px black;
+    & > p{
+        color: blue;
+        &:hover{
+            @include ahmadProps();
+            box-shadow: 5px 5px 5px lightblue;
+
+        }
+    }
+}

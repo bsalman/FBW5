@@ -1,0 +1,7 @@
+@for $var from 1 to 11 {
+
+    .blaClass#{$var}{
+        font-size: 5px * $var;
+    }
+
+}

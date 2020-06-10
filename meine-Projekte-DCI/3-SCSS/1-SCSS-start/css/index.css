@@ -1,0 +1,27 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.container {
+  border: 2px solid black;
+}
+
+.container > div {
+  background-color: #15cfcf;
+}
+
+.container > div:nth-child(1) {
+  font-size: 25px;
+}
+
+.container > div:nth-child(1) > p {
+  line-height: 50px;
+}
+
+.banner {
+  background-color: #15cfcf;
+}
+/*# sourceMappingURL=index.css.map */

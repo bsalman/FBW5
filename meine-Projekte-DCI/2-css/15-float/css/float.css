@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+div {
+    border: 1px solid black;
+}
+
+.div1 {
+    height: 5vh;
+}
+
+.div2 {
+    height: 15vh;
+}
+
+.div3 {
+    height: 20vh;
+    width: 30%;
+    float: left;
+}
+
+.div4 {
+    height: 20vh;
+    width: 70%;
+    float: left;
+}
+
+.div5 {
+    height: 20vh;
+    width: 70%;
+    float: left;
+}
+
+.div6 {
+    height: 40vh;
+    width: 30%;
+    float: right;
+}
+
+.div7 {
+    height: 40vh;
+    width: 30%;
+    float: left;
+}
+
+.div8 {
+    height: 20vh;
+    width: 40%;
+    float: left;
+}
+
+.div9 {
+    height: 20vh;
+    width: 70%;
+    float: right;
+}
+@media only screen and (max-width: 797px){
+    /* [class^='div'] selector for all calsses that begin with word (div) */
+    /* [class*='div'] selector for all calsses that contain the word (div) */
+    .div3,.div4,.div5,.div6,.div7{
+        width: 50%;
+    }
+    .div5{
+        height: 10vh;
+    }
+    .div7{
+        height: 30vh;
+    }
+    .div8,.div9{
+        width: 100%;
+    }
+
+}
+@media only screen and (max-width: 340px){
+    /* [class^='div'] selector for all calsses that begin with word (div) */
+    /* [class*='div'] selector for all calsses that contain the word (div) */
+    [class^='div']{
+        width: 100% ;
+    }
+}
+
+
+
+
+
+
+
+
+
+@media  print and (max-width: 595px){
+    /* this for A4 paper */
+    div{
+        border: 10px solid skyblue;
+    }
+}
+@media  print and (max-width: 420px){
+    /* this for A5 paper */
+    div{
+        border: 10px solid green;
+    }
+}

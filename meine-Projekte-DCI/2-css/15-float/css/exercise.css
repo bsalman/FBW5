@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+}
+.someclass{
+    height: 100px;
+    float: left;
+    /* border: 1px solid black; */
+    padding: 3px;
+}
+.someclass:nth-child(1){
+    /* background-color: red; */
+    width: 25%;
+}
+.someclass:nth-child(2){
+    /* background-color: blue; */
+    width: 50%;
+}
+.someclass:nth-child(3){
+    /* background-color: green; */
+    width: 25%;
+}
+.subdiv{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}

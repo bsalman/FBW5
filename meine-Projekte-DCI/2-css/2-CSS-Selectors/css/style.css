@@ -1,0 +1,16 @@
+/* Selector by TAG NAME */
+title{
+color: darkblue;
+display: block;
+}
+
+/*selector by CLASS NAME */
+.paragraph{
+    letter-spacing:3px  ;
+    text-shadow: -5px -5px 3px black;
+}
+/*Selector by ID*/
+#someID{
+    box-shadow: 5px 5px 5px black;
+    background-color: gray; 
+}

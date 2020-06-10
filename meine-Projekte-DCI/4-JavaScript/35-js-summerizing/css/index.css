@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+flex-direction: row;
+}
+.controlsContainer{
+    display: flex;
+    flex-direction: column;
+}
+.imges-container{
+display: flex;
+flex-wrap: wrap;
+}
+.imges-container img{
+float: left;
+
+margin: 5px;
+
+}
+.paggingDiv{
+    display: flex;
+    flex-direction: column;
+}

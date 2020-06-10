@@ -1,0 +1,36 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    display: grid;
+    height: 100vh;
+    background-color: lightcoral;
+    grid-template-rows: 20vh auto 50vh;
+    grid-template-areas: 'header header header' 
+                         'menu main right'
+                         'menu footer footer';
+                         
+    gap: 10px;
+                        
+}
+.container>div{
+    background-color: lightseagreen;
+}
+.header{
+    grid-area: header;
+}
+.menu{
+    grid-area: menu;
+}
+.main{
+    grid-area: main;
+}
+.right{
+    grid-area: right;
+}
+.footer{
+    grid-area: footer;
+}

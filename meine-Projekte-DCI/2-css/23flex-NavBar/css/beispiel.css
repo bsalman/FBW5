@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header,.footer{
+    height: 20vh;
+    background-color: yellowgreen;
+}
+.contant{
+    display: flex;
+}
+.Article{
+    flex-grow: 3;
+    height: 60vh;
+}
+.Aside{
+    flex-grow: 1;
+    height: 60vh;
+    background-color: wheat;
+}
+.nav{
+    flex-grow: 1;
+    height: 60vh;
+    background-color: violet;
+}
+
+   

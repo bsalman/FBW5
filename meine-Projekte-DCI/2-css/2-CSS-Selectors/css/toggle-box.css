@@ -1,0 +1,6 @@
+.togglebox:checked + label{
+    color: red;
+}
+.togglebox{
+    display: none;
+}

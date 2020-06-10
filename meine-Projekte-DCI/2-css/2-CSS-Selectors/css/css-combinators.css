@@ -1,0 +1,17 @@
+/* only a paragraph after any paragraph should be red*/
+/* p + p{
+    color: red;
+} */
+
+/*only an article directly after paragraph which is directly after another paragraph*/
+/* p+p+article{
+    color: red;
+} */
+/*select first div in the content*/
+ /* div:first-child{
+    color: red;
+} */
+
+p ~ div{
+    color:red;
+}

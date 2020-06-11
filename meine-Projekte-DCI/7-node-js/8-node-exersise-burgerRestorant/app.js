@@ -1,5 +1,7 @@
 const express = require('express')
 
+const fileUpload =require('express-fileupload')
+
 const app =express();
 
 const emailSender =require('./modules/emailsender')
@@ -16,6 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // use a puplic folder for css js  font
 app.use(express.static('./puplic'));
+//set filuploade
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  }));
 //set view engin ejs  
 app.set('view engine','ejs');
 //set the view folder

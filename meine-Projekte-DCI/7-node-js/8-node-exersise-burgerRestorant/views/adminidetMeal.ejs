@@ -2,7 +2,7 @@
 <html class="no-js" lang="zxx">
 
 <head> 
-    <title>burger</title>
+    <title>Burger</title>
     <%- include('partials/htmlHead')%>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
@@ -18,7 +18,7 @@
 
     <!-- bradcam_area_start -->
     <div class="bradcam_area breadcam_bg overlay">
-        <h3>Admin</h3>
+        <h3>Idet meal</h3>
     </div>
     <!-- bradcam_area_end -->
       <!-- best_burgers_area_start  -->
@@ -40,13 +40,11 @@
                             <img src="<%=meals[i].imgUrl%>"  alt="">
                         </div>
                         <div class="info">
-                            <h3><%=meals[i].title %></h3>
-                            <p><%=meals[i].description %></p>
-                            <span>$<%=meals[i].price %></span>
-                             <a href="#" class="btn btn-danger mealdeletbtn" mealid="<%=i%>">Delete</a>
+                            <input type="text" class="mealTitle" value="<%=meals[i].title %>"> 
+                            <textarea  cols="30" rows="5" class="mealDescription"><%=meals[i].description %></textarea>
+                            <span>$<input type="number" style="width: 100px;" class="mealPrice" value="<%=meals[i].price %>"></span>
+                            <a href="#" class="btn btn-success mt-3  editbtn"  mealid="<%=i%>">save</a>
                         </div>
-
-                       
                     </div>
                 </div>
                 <%}%> 
@@ -54,7 +52,10 @@
         </div>
     </div>
 
+<!--add dish form-->
 
+
+<!--add dish form-end-->
 
 
  
@@ -154,31 +155,38 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <!-- JS here -->
     <%- include('partials/jsfile')%>
-
     <!--contact js-->
- <script>
-     $('.mealdeletbtn').click(function (e) { 
-         e.preventDefault();
-        //  $(this).attr('mealid')
-         if(confirm("are you sure that you want to delete this meal")){
-             $.ajax({
-                 type: "post",
-                 url: "/admin/deletmeal",
-                 data: {mealid:$(this).attr('mealid')},
-                //  dataType: "json",
-                 success: function (response) {
-                    //  alert('deleted')
-                    $(e.target).parent().parent().parent().remove();
-                 },
-                 error:function(error){
-                     alert('error')
-                 }
-                
-             });
+   <script>
+       const editbtn = document.querySelectorAll('.editbtn');
+       
+       editbtn.forEach(element => {
+        element.addEventListener("click",function (e) {
+            e.preventDefault();
+          //alert(e.target.getAttribute('mealid'))
+          const mealid= e.target.getAttribute('mealid')
+        const mealTitle =e.target.parentElement.querySelector('.mealTitle').value
+        const mealDescription =e.target.parentElement.querySelector('.mealDescription').value
+        const mealPrice = e.target.parentElement.querySelector('.mealPrice').value
+        $.ajax({
+         type: "post",
+         url: "/admin/idetmeal",
+         data: {
+            mealid,
+            mealTitle,
+            mealDescription,
+            mealPrice
+         },
+        //  dataType: "dataType",
+         success: function (response) {
+             
          }
-         
      });
- </script>   
+    })
+       });
+
+       
+      
+   </script>
 </body>
 
 </html>

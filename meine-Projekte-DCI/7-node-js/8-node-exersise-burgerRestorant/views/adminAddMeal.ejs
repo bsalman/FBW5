@@ -54,7 +54,7 @@
 <!--add dish form-->
 <div class="container">
     <div class="row">
-        <form  action="/admin/addmeal" method="POST">
+        <form  action="/admin/addmeal" method="POST" encType="multipart/form-data">
             <div class="form-group">
               <label for="exampleFormControlInput1">Meal Title </label>
               <input type="text" class="form-control" name="mealTitle" placeholder="Meal Title">
@@ -67,7 +67,13 @@
               <label for="exampleFormControlTextarea1">Meal Description</label>
               <textarea class="form-control"  rows="3"></textarea>
             </div>
+            <div>
+                <label for="mealimgfil">Meal Photo</label>
+                <br>
+                <input type="file" name ="mealimg" class="form-control-file" id="mealimgfil" accept="image/x-png,image/gif,image/jpeg">
+            </div>
             <input type="submit" class="btn btn-success" name="mealDescription" value="save">
+            
           </form>
 
 

@@ -45,7 +45,7 @@ case '/contact':
         const transporter=nodemailer.createTransport({service:'gmail',
     auth:{
         user:'bs395280@gmail.com',
-        pass:'0969000583'
+        pass:''
     }
       })
       const mailOption={

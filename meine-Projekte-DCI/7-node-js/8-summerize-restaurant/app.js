@@ -34,6 +34,8 @@ const myMeals = JSON.parse(jsonText)
 
 app.use('/admin',adminRoute.adminBurgerRouter(myMeals))
 
+
+
 // app.get('/admin/addmeal', (req, res) => {
 //     // const jsonText = fs.readFileSync(__dirname + '/meals.json')
 //     // const myMeals = JSON.parse(jsonText)
@@ -61,6 +63,35 @@ app.use('/admin',adminRoute.adminBurgerRouter(myMeals))
 //     res.redirect('/admin/addmeal')
 
 // });
+app.get('/login',(req,res)=>{
+    res.render('login')
+})
+app.post('/login',(req,res)=>{
+    console.log(req.body);
+    const jsonText=fs.readFileSync(__dirname+'/users.json')
+    
+    const users = JSON.parse(jsonText)
+    console.log(users);
+    // let check= false
+    // for (let i = 0; i < users.length; i++) {
+    //    if (req.body.userName ==users[i].username&& req.body.Password==users[i].password) {
+    //        check= true;
+    //        break
+    //    }
+    // }
+    // if (check) {
+    //     res.json("exist")
+        
+    // }else{
+    //     res.json('notexist')
+    // }
+    const foundUser= users.find(user=>user.username==req.body.username && user.password==req.body.Password)
+      if (foundUser) {
+     res.json("exist")  
+     }else{
+       res.json('notexist')
+    }
+})
 
 app.get('/menu', (req, res) => {
     // const jsonText = fs.readFileSync(__dirname + '/meals.json')

@@ -15,7 +15,7 @@
 
     <!-- bradcam_area_start -->
     <div class="bradcam_area breadcam_bg overlay">
-        <h3>Edit Meal</h3>
+        <h3>Add Meal</h3>
     </div>
     <!-- bradcam_area_end -->
 
@@ -31,34 +31,28 @@
                 </div>
             </div>
             <div class="row">
-                <% for(let i = 0; i < meals.length; i++){%>
-                <div class="col-xl-6 col-md-6 col-lg-6">
-                    <div class="single_delicious d-flex align-items-center">
-                        <div class="thumb">
-                            <img class="mealImg" src="<%= meals[i].imgUrl%>" alt="">
-                        </div>
-                        <div class="info">
-                            <input type="text" class="mealTitle" value="<%= meals[i].title%>">
-                            <textarea class="mealDescription" cols="30" rows="5"><%= meals[i].description%></textarea>
-                            <span>$<input type="number" style="width: 100px;" class="mealPrice"
-                                    value="<%= meals[i].price%>"></span>
-                                    <input type="file" name="mealimg" class="form-control-file" id="mealimgfile" accept="image/x-png,image/gif,image/jpeg">
-                            <a href="#" class="btn btn-success mt-3 editbtn" mealid="<%=i%>">save</a>
-                        </div>
-                    </div>
-                </div>
-                <%}%>
-            </div>
-        </div>
-    </div>
+            
     <!-- best_burgers_area_end  -->
 
-    
+    <div class="row">
+        <div class="md12">
+        <a href="/admin/addmeal"> Add Meal</a>
+        <br>
+        <a href="/admin/deletmeal"> Delet Meal</a>
+        <br>
+        <a href="/admin/editmeal"> Edet Meal</a>
+        </div>
+       
+    </div>
+
+    <!-- add dish form -->
+
+   
+
+    <!-- add dish form-end -->
 
     
-
-    
-
+<br>
     <!-- footer_start  -->
     <footer class="footer">
             <div class="footer_top">
@@ -149,103 +143,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- footer_end  -->
 
     <%- include('partials/htmlJs') %>
-                <script>
-                    document.querySelectorAll('.editbtn').forEach(element => {
-                        element.addEventListener('click', e => {
-                            e.preventDefault()
-                            const mealid = e.target.getAttribute('mealid')
-                            const mealTitle = e.target.parentElement.querySelector('.mealTitle').value
-                            const mealDescription = e.target.parentElement.querySelector(
-                                '.mealDescription').value
-                            const mealPrice = e.target.parentElement.querySelector('.mealPrice').value
-                            const imgFile = e.target.parentElement.querySelector('.form-control-file').files[0]
-
-                            // build the form data
-                            const fd = new FormData()
-                            fd.append('mealid', mealid)
-                            fd.append('mealTitle', mealTitle)
-                            fd.append('mealDescription', mealDescription)
-                            fd.append('mealPrice', mealPrice)
-                            if(imgFile){
-                                fd.append('imgFile', imgFile)
-                            }
-
-                            postData_FormData("/admin/editmeal", fd).then(response => {
-                                if(response.status == 200){
-                                    response.json().then(jsonData => {
-                                        console.log(jsonData)
-                                        e.target.parentElement.parentElement.querySelector('.mealImg').src = jsonData + "?" + new Date().getTime()
-                                    })
-                                }
-                                
-                            })
-                            
-                            
-                            //console.log(mealPrice);
-                            // $.ajax({
-                            //     type: "POST",
-                            //     url: "/admin/editmeal",
-                            //     data: {
-                            //         mealid,
-                            //         mealTitle,
-                            //         mealDescription,
-                            //         mealPrice
-                            //     },
-                            //     success: function (response) {
-                                    
-                            //     }
-                            // });
-
-                            // send data using fetch
-
-                            
-                            
-
-
-                            // postData("/admin/editmeal", {
-                            //         mealid,
-                            //         mealTitle,
-                            //         mealDescription,
-                            //         mealPrice
-                            // }).then(data =>{
-                            //     console.log(data)
-                            // })
-
-                        })
-                    })
-
-
-                    // send the data as json using fetch
-    function postData(url = '', data = {}) {
-    // Default options are marked with *
-    // eslint-disable-next-line no-undef
-    return fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, cors, *same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-      'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
-      .then(response => response) // parses JSON response into native Javascript objects
-  }
-
-  // send the data as formdata using fetch
-  function postData_FormData(url = '', formdata = {}) {
-    // Default options are marked with *
-    // eslint-disable-next-line no-undef
-    return fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      body: formdata // body data type must match "Content-Type" header
-    })
-      .then(response => response) // parses JSON response into native Javascript objects
-  }
-                </script>
 
 </body>
 

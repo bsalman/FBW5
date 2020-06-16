@@ -3,7 +3,9 @@ const fs = require('fs')
 
 function adminBurgerRouter(myMeals){
     const adminRoute = express.Router()
-
+adminRoute.get('/',(req,res)=>{
+    res.render('admin')
+})
     adminRoute.get('/addmeal', (req, res) => {
         // const jsonText = fs.readFileSync(__dirname + '/meals.json')
         // const myMeals = JSON.parse(jsonText)
@@ -17,6 +19,14 @@ function adminBurgerRouter(myMeals){
     adminRoute.post('/deletmeal', (req, res) => {
         //console.log(req.body.mealid)
         const idx = req.body.mealid
+       
+    try{
+    fs.unlinkSync("./public/"+ mymeals[idx].imgUrl)
+    }catch(error){
+    console.log(error);
+    
+    }
+
         myMeals.splice(idx, 1)
         fs.writeFileSync('./meals.json', JSON.stringify(myMeals))
         
@@ -28,9 +38,17 @@ function adminBurgerRouter(myMeals){
     })
     adminRoute.post('/editmeal', (req, res) => {
         console.log( req.body)
+        console.log(req.files);
+        
         myMeals[req.body.mealid].title = req.body.mealTitle
         myMeals[req.body.mealid].description = req.body.mealDescription
         myMeals[req.body.mealid].price = req.body.mealPrice
+        fs.writeFileSync('')
+        const mealImage = req.file
+    if (meal) {
+        
+    }
+        fs.unlinkSync('./public'+myMeals[req.body.mealid].imgUrl)
         fs.writeFileSync('./meals.json', JSON.stringify(myMeals))
         res.sendStatus(200)
     })

@@ -11,7 +11,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
-    <%- include('partials/head', {active: 'menu'}) %>
+    <%- include('partials/head', {active: 'login'}) %>
 
     <!-- bradcam_area_start -->
     <div class="bradcam_area breadcam_bg overlay">
@@ -43,11 +43,11 @@
                 <input type="text" name="username" id="username" class="form-control" placeholder="User Name" required autofocus >
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required >
-                <!-- <div class="checkbox mb-3">
+                <div class="checkbox mb-3">
                   <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox" name="rememberme" value="remember-me"> Remember me
                   </label>
-                </div> -->
+                </div>
                 <button class="btn btn-lg btn-primary btn-block  submitBtn"  >Sign in</button>
                 <p class="mt-5 mb-3 text-muted">&copy; 2020-2021</p>
               </form>

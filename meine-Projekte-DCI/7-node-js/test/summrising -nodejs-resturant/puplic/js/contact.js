@@ -60,6 +60,9 @@ $(document).ready(function(){
                     data: $(form).serialize(),
                     url:"/contact",
                     success: function() {
+                        // i added this line to mack all inputs impte after cleck on send button 
+                        $('#contactForm :input').val('')
+                        //add bootstarp modal  to show after sending the email 
                         $('#contactForm :input').attr('disabled', 'disabled');
                         $('#contactForm').fadeTo( "slow", 1, function() {
                             $(this).find(':input').attr('disabled', 'disabled');

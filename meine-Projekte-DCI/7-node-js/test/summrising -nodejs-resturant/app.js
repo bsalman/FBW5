@@ -6,8 +6,11 @@ const app= express()
 const fs = require('fs')
 //12 send E-mail from the web seit using contact fisrst step require the nodemailer
 //secund step creat app.post for contact thin use urlencoder to parse the body
-const nodemailer =require('nodemailer')
-//use express url encoder
+// therd step chech the send methode we can use ejax or fetch or normal send in aur casse we will make new module
+//we will namet send Email.js
+// const nodemailer =require('nodemailer')
+const sendEmail = require('./module/sendEmail')
+//use express url encoder THIS IS THE BODYPARSER IN EXPRESS(this lien will stay in app.js) 
 app.use(express.urlencoded({extended:true}))
 // 4 set apuplic file (css,html,js)
 app.use(express.static('./puplic'))
@@ -34,28 +37,22 @@ app.get('/contact',(req,res)=>{
 //13 app.post for send an email from the web seit 
 app.post('/contact', (req, res) => {
     console.log(req.body);
-     const transporter = nodemailer.createTransport({
-         service:'gmail',
-         auth:{
-             user:'bs395280@gmail.com',
-             pass:''
-         }
-     })
-     const mailOption ={
-        from:req.body.email,
-        to:'bs395280@gmail.com',
-        subject:req.body.subject,
-        text:req.body.name +'\n'+ req.body.message
-     }
-
-     transporter.sendMail(mailOption,function(error,info){
-        if(error){
-            console.log(error)
-        } else {
-            console.log(info.response)
-        }
     
-  })
+    const subject = req.body.subject
+    const name =req.body.name;
+    const message =req.body.message;
+    const email=req.body.email
+    // we shold inport  sendemail module with the function insid it to app.post contact
+    //
+    sendEmail.emailsender(subject,name,message,email,(ok)=>{
+        if (ok) {
+            res.sendStatus(200);
+        }else{
+            res.sendStatus(500)
+        }
+    })
+    
+    // if (name !='' && name.length<100 ) {}
 }); 
 //11 we sholde new file (partial) creating  inseid this folder html header  und js file  to shared with all pages usin  <%-include('foldername/filename')%>
 

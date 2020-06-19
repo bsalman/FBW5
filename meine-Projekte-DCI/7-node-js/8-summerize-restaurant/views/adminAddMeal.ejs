@@ -59,7 +59,7 @@
             <form action="/admin/addmeal" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="exampleFormControlInput1">Meal Title </label>
-                  <input type="text" class="form-control" name="mealTitle"  placeholder="Meal Title">
+                  <input  id="mealTitleInp" type="text" class="form-control" name="mealTitle"  placeholder="Meal Title">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Meal Price</label>
@@ -73,6 +73,7 @@
                     <label for="mealimgfile">Meal Image</label>
                     <input type="file" name="mealimg" class="form-control-file" id="mealimgfile" accept="image/x-png,image/gif,image/jpeg">
                 </div>
+                <textarea id="mealdetail" name ="mealdetail">Hello, World!</textarea>
                 <input type="submit" class="btn btn-success" value="save">
               </form>
         </div>
@@ -172,6 +173,101 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- footer_end  -->
 
     <%- include('partials/htmlJs') %>
+
+
+    <script src='/tinymce/tinymce.min.js'></script>
+
+    <script>
+
+            tinymce.init({
+
+          selector: '#mealdetail',
+          /* theme of the editor */
+	
+	
+	/* width and height of the editor */
+	width: "100%",
+	height: 300,
+	
+	/* display statusbar */
+	statubar: true,
+	
+	/* plugin */
+	plugins: [
+		"advlist autolink link image lists charmap print preview hr anchor pagebreak",
+		"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+		"save table contextmenu directionality emoticons template paste textcolor"
+	],
+
+	/* toolbar */
+	toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
+	
+	/* style */
+	style_formats: [
+		{title: "Headers", items: [
+			{title: "Header 1", format: "h1"},
+			{title: "Header 2", format: "h2"},
+			{title: "Header 3", format: "h3"},
+			{title: "Header 4", format: "h4"},
+			{title: "Header 5", format: "h5"},
+			{title: "Header 6", format: "h6"}
+		]},
+		{title: "Inline", items: [
+			{title: "Bold", icon: "bold", format: "bold"},
+			{title: "Italic", icon: "italic", format: "italic"},
+			{title: "Underline", icon: "underline", format: "underline"},
+			{title: "Strikethrough", icon: "strikethrough", format: "strikethrough"},
+			{title: "Superscript", icon: "superscript", format: "superscript"},
+			{title: "Subscript", icon: "subscript", format: "subscript"},
+			{title: "Code", icon: "code", format: "code"}
+		]},
+		{title: "Blocks", items: [
+			{title: "Paragraph", format: "p"},
+			{title: "Blockquote", format: "blockquote"},
+			{title: "Div", format: "div"},
+			{title: "Pre", format: "pre"}
+		]},
+		{title: "Alignment", items: [
+			{title: "Left", icon: "alignleft", format: "alignleft"},
+			{title: "Center", icon: "aligncenter", format: "aligncenter"},
+			{title: "Right", icon: "alignright", format: "alignright"},
+			{title: "Justify", icon: "alignjustify", format: "alignjustify"}
+		]}
+	]
+        });
+        //send a post to the server to check meal titel is exist using fecth 
+        document.querySelector('#mealTitleInp').addEventListener('blur',(e)=>{
+            e.preventDefault()
+            fetch('/admin/checkmealname',{
+                method:'POST',
+                body:JSON.stringify({
+                   mealtitle:e.target.value
+                }),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+                
+            }).then(response=>{
+                if (response.status==200) {
+                    response.json().then(data=>{
+                        // alert(data)
+                        if (data=='exist') {
+                            const errorSpan =e.target.parentElement.querySelector('.errorspan')
+                            if(errorSpan==null){
+                                const errorSpan=document.createElement('span')
+                                errorSpan.style.color='red'
+                                errorSpan.classList.add('errorspan')
+                                errorSpan.
+                            }
+                            
+                        }
+                    })
+                }else{
+                   
+                }
+            })
+        })
+        </script>
 
 </body>
 

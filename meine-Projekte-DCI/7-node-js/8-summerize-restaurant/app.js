@@ -207,7 +207,10 @@ app.get('/meal/:title',(req,res)=>{
                       mealTitle:foundMeal.title,
                        mealPrice:foundMeal.price,
                       mealImg:foundMeal.imgUrl,
-                      mealDescription:foundMeal.description})
+                      mealDescription:foundMeal.description,
+                      mealdetail:foundMeal.details
+                    }
+                      )
    }else{
        res.send("you mother fucker don't play hier")
    }

@@ -4,14 +4,14 @@ const nodemailer =require('nodemailer')
 const transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
-        user:'bs395280@gmail.com',
-        pass:''
+        user:'bsho395850@gmail.com',
+        pass:'0969000583'
     }
     
 })
-function emailsender(subject,name,message,email,callback) {
+function sendEmail(subject,name,message,email,callback) {
     const mailOption ={
-        from:email,
+        from:'bsho395850@gmail.com',
         to:'bs395280@gmail.com',
         subject:subject,
         text:email+'\n'+name +'\n'+ message
@@ -29,4 +29,4 @@ function emailsender(subject,name,message,email,callback) {
   })
 }
 
-module.export = {emailsender}
+module.exports = {sendEmail}

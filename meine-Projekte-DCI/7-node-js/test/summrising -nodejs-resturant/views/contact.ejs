@@ -72,7 +72,7 @@
                     <h2 class="contact-title">Get in Touch</h2>
                 </div>
                 <div class="col-lg-8">
-                    <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm"
+                    <form class="form-contact contact_form" action="/contact" method="post" id="contactForm"
                         novalidate="novalidate">
                         <div class="row">
                             <div class="col-12">
@@ -251,15 +251,7 @@
 
     <!-- JS here -->
     <%-include('partial/jsFile')%>
-    <% if(respons.status==200){%>
-        <script>
-            alert('your Email sended successfuly')
-        </script>
-        <%}else{%>
-            <script>
-                console.log(respons.status);
-                alert('your Email didnot send')
-            </script>
-            <%}%>
 
+    
+</body>
 </html>

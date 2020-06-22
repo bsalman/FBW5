@@ -247,25 +247,32 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     'Content-Type':'application/json'
                 }
                 
-            }).then(response=>{
-                if (response.status==200) {
-                    response.json().then(data=>{
-                        // alert(data)
-                        if (data=='exist') {
-                            const errorSpan =e.target.parentElement.querySelector('.errorspan')
-                            if(errorSpan==null){
-                                const errorSpan=document.createElement('span')
-                                errorSpan.style.color='red'
-                                errorSpan.classList.add('errorspan')
-                                errorSpan.
+            }).then(response => {
+                            if (response.status == 200) {
+                                response.json().then(data => {
+                                    //alert(data)
+                                    if (data == 'exist') {
+                                        const errorSpan = e.target.parentElement.querySelector('.errorspan')
+                                        if (errorSpan == null) {
+                                        
+                                        const errorSpan = document.createElement('span')
+                                        errorSpan.style.color = 'red';
+                                        errorSpan.classList.add('errorspan')
+                                        errorSpan.innerText = "Title is exist"
+                                        e.target.parentElement.append(errorSpan)
+                                        }
+                                        e.target.focus()
+                                    } else {
+                                        const errorSpan = e.target.parentElement.querySelector('.errorspan')
+                                        if (errorSpan) {
+                                            errorSpan.remove()
+                                        }
+                                    }
+                                })
+                            } else {
+                                alert('error')
                             }
-                            
-                        }
-                    })
-                }else{
-                   
-                }
-            })
+                        })
         })
         </script>
 

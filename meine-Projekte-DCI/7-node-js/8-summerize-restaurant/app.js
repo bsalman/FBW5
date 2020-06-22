@@ -22,7 +22,7 @@ app.use(cookie())
 app.use(fileupload({
     limits: { fileSize: 50 * 1024 * 1024 }
 }))
-// use express urlencoder to get posted data
+// use express urlencoder to get posted data and parser req data and convertet to jeson
 app.use(express.urlencoded({extended: false}));
 // use express.json() to get posted json data and converted to object inside the body
 app.use(express.json())

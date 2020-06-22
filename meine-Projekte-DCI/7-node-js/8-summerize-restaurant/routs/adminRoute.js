@@ -8,13 +8,6 @@ function adminBurgerRouter(myMeals) {
         res.render('admin')
     })
 
-    adminRoute.get('/addmeal', (req, res) => {
-        // const jsonText = fs.readFileSync(__dirname + '/meals.json')
-        // const myMeals = JSON.parse(jsonText)
-        res.render('adminAddMeal', {
-            meals: myMeals
-        })
-    });
 
     adminRoute.get('/deletmeal', (req, res) => {
         res.render('adminDeletMeal', {
@@ -26,17 +19,18 @@ function adminBurgerRouter(myMeals) {
         //console.log(req.body.mealid)
         const idx = req.body.mealid
         try {
-          fs.unlinkSync("./public" + myMeals[idx].imgUrl)  
+            fs.unlinkSync("./public" + myMeals[idx].imgUrl)
         } catch (error) {
             console.log(error)
         }
-        
+
         myMeals.splice(idx, 1)
         fs.writeFileSync('./meals.json', JSON.stringify(myMeals))
 
 
         res.sendStatus(200)
     })
+    //================= editMeal-areea-start=========================
     adminRoute.get('/editmeal', (req, res) => {
         res.render('adminEditMeal', {
             meals: myMeals
@@ -48,7 +42,7 @@ function adminBurgerRouter(myMeals) {
         myMeals[req.body.mealid].title = req.body.mealTitle
         myMeals[req.body.mealid].description = req.body.mealDescription
         myMeals[req.body.mealid].price = req.body.mealPrice
-        
+
         if (req.files) {
             //console.log(req.files)
             const mealImg = req.files.imgFile
@@ -57,15 +51,15 @@ function adminBurgerRouter(myMeals) {
                 fs.unlinkSync("./public" + myMeals[req.body.mealid].imgUrl)
             } catch (error) {
                 console.log(error);
-                
+
             }
-            
+
             // get image extenstion
             let ext = mealImg.name.substr(mealImg.name.lastIndexOf('.'))
 
             // move the new image to uploaded folder
-            mealImg.mv('./public/uploadedfiles/' + req.body.mealTitle.replace(/ /g, '_') + (req.body.mealid ) + ext).then(() => {
-                myMeals[req.body.mealid].imgUrl ="/uploadedfiles/" + req.body.mealTitle.replace(/ /g, '_') + (req.body.mealid ) + ext
+            mealImg.mv('./public/uploadedfiles/' + req.body.mealTitle.replace(/ /g, '_') + (req.body.mealid) + ext).then(() => {
+                myMeals[req.body.mealid].imgUrl = "/uploadedfiles/" + req.body.mealTitle.replace(/ /g, '_') + (req.body.mealid) + ext
                 fs.writeFileSync('./meals.json', JSON.stringify(myMeals))
                 //res.sendStatus(200)
                 res.json(myMeals[req.body.mealid].imgUrl)
@@ -78,13 +72,21 @@ function adminBurgerRouter(myMeals) {
             res.json(myMeals[req.body.mealid].imgUrl)
         }
     })
-   
-//============================addmeal================//
+
+    //============================addmeal-start================//
+    adminRoute.get('/addmeal', (req, res) => {
+        // const jsonText = fs.readFileSync(__dirname + '/meals.json')
+        // const myMeals = JSON.parse(jsonText)
+        res.render('adminAddMeal', {
+            meals: myMeals
+        })
+    });
+
     adminRoute.post('/addmeal', (req, res) => {
         const mealTitle = req.body.mealTitle
         const mealPrice = req.body.mealPrice
         const mealDescription = req.body.mealDescription
-        const mealdetail= req.body.mealdetail
+        const mealdetail = req.body.mealdetail
 
         // chees burger 
         // chees_burger_1.jpeg
@@ -93,16 +95,16 @@ function adminBurgerRouter(myMeals) {
         // string empty string
         // object undefined
         // datatype null 
-       
+
         //check if meal
-        
-       
-            if (mealTitle && mealPrice && mealDescription && req.files  ) {
-const fundMachMeal =myMeals.find(meal=>meal.title ==mealTitle)
-if(fundMachMeal){
-    res.send('this meal is exist')
-} else{
-    const mealImg = req.files.mealimg
+
+
+        if (mealTitle && mealPrice && mealDescription && req.files) {
+            const fundMachMeal = myMeals.find(meal => meal.title == mealTitle)
+            if (fundMachMeal) {
+                res.send('this meal is exist')
+            } else {
+                const mealImg = req.files.mealimg
                 //mealImg.name // blabla.jpeg
                 // get image extenstion
                 let ext = mealImg.name.substr(mealImg.name.lastIndexOf('.'))
@@ -112,7 +114,7 @@ if(fundMachMeal){
                         description: mealDescription,
                         imgUrl: '/uploadedfiles/' + mealTitle.replace(/ /g, '_') + myMeals.length + ext,
                         price: mealPrice,
-                        details:mealdetail
+                        details: mealdetail
                     }
                     myMeals.push(obj)
                     fs.writeFileSync('./meals.json', JSON.stringify(myMeals))
@@ -122,28 +124,29 @@ if(fundMachMeal){
                 }).catch(error => {
                     res.send(error.message);
                 })
-}
-
-
-                
-    
-            } else {
-                res.send("meal data is not complete");
             }
-        
-          
-        
-      
+
+
+
+
+        } else {
+            res.send("meal data is not complete");
+        }
+
+
+
+
 
     });
-    adminRoute.post('/checkmealname',(req,res)=>{
-console.log(req.body);
-const foundMeal = myMeals.find(meal=>meal.title==req.body.mealtitle)
-if(foundMeal){
-    res.json('exist')
-}else{
-    res.json(notexist)
-}
+    //============================addmeal_end================//
+    adminRoute.post('/checkmealname', (req, res) => {
+        console.log(req.body);
+        const foundMeal = myMeals.find(meal => meal.title == req.body.mealtitle)
+        if (foundMeal) {
+            res.json('exist')
+        } else {
+            res.json(notexist)
+        }
 
     })
     return adminRoute

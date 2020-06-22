@@ -55,31 +55,35 @@ $(document).ready(function(){
                 }
             },
             submitHandler: function(form) {
-                $(form).ajaxSubmit({
-                    type:"POST",
-                    data: $(form).serialize(),
-                    url:"/contact",
-                    success: function() {
-                        // i added this line to mack all inputs impte after cleck on send button 
-                        $('#contactForm :input').val('')
-                        //add bootstarp modal  to show after sending the email 
-                        $('#contactForm :input').attr('disabled', 'disabled');
-                        $('#contactForm').fadeTo( "slow", 1, function() {
-                            $(this).find(':input').attr('disabled', 'disabled');
-                            $(this).find('label').css('cursor','default');
-                            $('#success').fadeIn()
-                            $('.modal').modal('hide');
-		                	$('#success').modal('show');
-                        })
-                    },
-                    error: function() {
-                        $('#contactForm').fadeTo( "slow", 1, function() {
-                            $('#error').fadeIn()
-                            $('.modal').modal('hide');
-		                	$('#error').modal('show');
-                        })
-                    }
-                })
+               // if we want to use normal post to send the data  we sluold write form.submit() in js file and change the 
+               //action in ejs file inside the form 
+                form.submit()
+                // $(form).ajaxSubmit({
+                //     type:"POST",
+                //     data: $(form).serialize(),
+                //     //wir mussen url zu /contact andern wen wir ajax 
+                //     url:"/contact",
+                //     success: function() {
+                //         // i added this line to mack all inputs impte after cleck on send button 
+                //         $('#contactForm :input').val('')
+                //         //add bootstarp modal  to show after sending the email 
+                //         $('#contactForm :input').attr('disabled', 'disabled');
+                //         $('#contactForm').fadeTo( "slow", 1, function() {
+                //             $(this).find(':input').attr('disabled', 'disabled');
+                //             $(this).find('label').css('cursor','default');
+                //             $('#success').fadeIn()
+                //             $('.modal').modal('hide');
+		        //         	$('#success').modal('show');
+                //         })
+                //     },
+                //     error: function() {
+                //         $('#contactForm').fadeTo( "slow", 1, function() {
+                //             $('#error').fadeIn()
+                //             $('.modal').modal('hide');
+		        //         	$('#error').modal('show');
+                //         })
+                //     }
+                // })
             }
         })
     })

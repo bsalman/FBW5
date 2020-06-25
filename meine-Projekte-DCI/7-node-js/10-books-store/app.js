@@ -3,6 +3,7 @@ const express = require('express');
 
 // const adminRoute = require('./routs/adminRoute')
 const fileupload = require('express-fileupload')
+
 const session = require('express-session')
 //create cookie
 // const cookie = require('cookie-parser')
@@ -27,7 +28,7 @@ app.set('views', __dirname + '/views'); //2
 app.use(session(sessionOption)); //9
 // app.use(cookie())//10
 
-// set fileupload middleware
+// useing fileupload middleware
 app.use(fileupload({
     limits: {
         fileSize: 50 * 1024 * 1024

@@ -67,24 +67,28 @@
                fetch('/register',{
                 method:'POSt',
             headers:{
-                'Conten-type':'applicatin/json'
+                'Content-type':'application/json'
             },body:JSON.stringify(sendData),
-               }).then(respons=>{
-                   if(respons.status==200){
-                       respons.json().then(data=>{
-                           console.log(data);
-                           
+               }).then(response => {
+                   console.log(response.status);
+                   
+                   if(response.status == 200){  
+                       response.json().then(data =>{
+                         console.log(data);
+                         alert('your redister is success')
                        })
                    }else{
-                       alert(error)
+                       alert('error')
                    }
                }).catch(error=>{
                    console.log(error);
                    
                })
                 
+            }else{
+                alert('missing entry check your data')
             }
-            //fecht function with async function 
+            //fecht  with async function 
             // async function postData(url , data) {
             //     const response = await fecht(url, {
             //         method: 'POST',

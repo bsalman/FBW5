@@ -1,0 +1,18 @@
+{
+    "books": [{
+        "id": 1,
+        "title": "Book Title",
+        "description": "Book Description",
+        "imgs": ["blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg"],
+        "pdfUrl": "blalba/bla.pdf",
+        "userid": 1
+    }, {
+        "id": 2,
+        "title": "hshhs",
+        "description": "<p>Hello</p>",
+        "imgs": ["/uploadedFile", "/uploadedFile"],
+        "pdfUrl": "/uploadedFiles/hshhs_1.pdf",
+        "userid": 1
+    }],
+    "newid": 3
+}

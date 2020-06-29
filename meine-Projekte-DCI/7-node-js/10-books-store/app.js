@@ -1,65 +1,41 @@
-const express = require('express');
-// const emailSender = require('./modules/emailSender')
-
-// const adminRoute = require('./routs/adminRoute')
-const fileupload = require('express-fileupload')
-
+const express = require('express')
 const session = require('express-session')
-//create cookie
-// const cookie = require('cookie-parser')
-const app = express();
+const fileupload = require('express-fileupload')
+const cookie = require('cookie-parser')
+const fs = require('fs')
 
+// include dataModule
 const dataModule = require('./modules/dataModule')
+const adminRouter = require('./routes/adminRoutes')
 
-const adminRoute = require('./routs/adminRoute')
-
-const sessionOption = {
-    secret: 'books store',
-    cookie: {
-
-    }
-} //8
-
-app.set('view engine', 'ejs'); //1
-
-app.set('views', __dirname + '/views'); //2
-
-//use the session 
-app.use(session(sessionOption)); //9
-// app.use(cookie())//10
-
-// useing fileupload middleware
-app.use(fileupload({
-    limits: {
-        fileSize: 50 * 1024 * 1024
-    }
-})) //11
-
-app.use(express.static('./public')); //4
-app.use(express.urlencoded({
-    extended: false
-})); //6
+const app = express()
+app.use(express.static(__dirname + '/public'))
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+const sessionOptions = {
+    secret: 'bookStore',
+    cookie: {}
+}
+app.use(session(sessionOptions))
+app.use(cookie())
 
-
-app.use('/admin',adminRoute)
-// use express.json() to get posted json data and converted to object inside the body
-// app.use(express.json())//7
-// const dataModule= require('./modules/dataModule')
-
-
+app.use(fileupload({
+    limits: { fileSize: 50 * 1024 * 1024 }
+}))
+// app.use(bla()) function in use that means it is a middleware
+// please add the usage of any router after all others middleware so they will effect on router requests
+app.use('/admin', adminRouter)
 
 app.get('/', (req, res) => {
-    res.render('main');
-}); //3
-
-app.get('/admin',(req,res)=>{
-    res.render('admin')
-})
+    res.render('main')
+});
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register')
 });
+
 app.post('/register', (req, res) => {
     // your post register handler here
     // console.log(req.body)
@@ -67,37 +43,33 @@ app.post('/register', (req, res) => {
     // 1 user registered successfuly
     // 3 user is exist
     // 4 server error
-    console.log(req.body);
+    const email = req.body.email.trim()
     const password = req.body.password
-    const email = req.body.email
-    const rePassword = req.body.rePassword
-
-    if (email && password && password == rePassword) {
+    const repassword = req.body.repassword
+    if (email && password && password == repassword){
         dataModule.registerUser(email, password).then(() => {
             res.json(1)
         }).catch(error => {
             console.log(error);
-            if (error == 'exist') {
+            if (error == "exist") {
                 res.json(3)
             } else {
                 res.json(4)
             }
         })
-    } else {
-        res.json(2)
-    }
-
+    } else{
+            res.json(2)
+        }
+    
 });
 
+// shop route
 app.get('/shop', (req, res) => {
-    res.render('shop');
+    dataModule.getAllBooks().then(blabooks => {
+        res.render('shop', {books: blabooks})
+    })
+    
 });
-
-app.get('/login', (req, res) => {
-    res.render('login');
-});
-
-
 app.listen(3000, () => {
     console.log('App listening on port 3000!');
-}); //5
+});

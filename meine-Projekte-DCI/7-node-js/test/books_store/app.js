@@ -8,6 +8,8 @@ const dataModule = require('./module/dataModule')
 const app =express()
 
 const daminRouter = require('./routes/adminRoute')
+const fs = require('fs')
+
 
 //=====================declaration end============//
 
@@ -69,6 +71,25 @@ app.post('/register',(req,res)=>{
 // app.get('/admin',(req,res)=>{
 //     res.render('admin')
 // })
+//========================//
+app.get('/shop/:title',(req,res)=>{
+    const booksFile = fs.readFileSync('./booksFile.json')
+    const booksObj = JSON.parse(booksFile)
+    const bookTitle=req.params.bookTitle
+    const foundBook =booksObj.find(book=>book.title.trim().replace(/ /g,'_')==bookTitle)
+    if (foundBook) {
+        res.render('book',{
+            bookTitle:foundBook.title,
+            bookDescription:foundBook.description,
+            bookImgs:foundBook.imgs,
+            bookPdfUrl:foundBook.pdfUrl
+
+        })
+    }else{
+        res.send('this Book not exist')
+    }
+    
+})
 // //===================== express_get_post_area_end============//
 
 app.listen(3000, () => {

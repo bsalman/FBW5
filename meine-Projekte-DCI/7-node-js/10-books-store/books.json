@@ -1,18 +1,25 @@
 {
     "books": [{
         "id": 1,
-        "title": "Book Title",
-        "description": "Book Description",
-        "imgs": ["blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg", "blalba/blalba/bla.jpeg"],
-        "pdfUrl": "blalba/bla.pdf",
+        "title": "book",
+        "description": "<p>zczxczxc</p>",
+        "imgs": ["/uploadedfiles/book_1_0.png"],
+        "pdfUrl": "/uploadedfiles/book_1.pdf",
         "userid": 1
     }, {
         "id": 2,
-        "title": "hshhs",
-        "description": "<p>Hello</p>",
-        "imgs": ["/uploadedFile", "/uploadedFile"],
-        "pdfUrl": "/uploadedFiles/hshhs_1.pdf",
+        "title": "c pointers",
+        "description": "<p>this book explains pointer on c language</p>",
+        "imgs": ["/uploadedfiles/c_pointers_1_0.png", "/uploadedfiles/c_pointers_1_1.jpg", "/uploadedfiles/c_pointers_1_2.jpg"],
+        "pdfUrl": "/uploadedfiles/c_pointers_1.pdf",
+        "userid": 1
+    }, {
+        "id": 3,
+        "title": "java oop",
+        "description": "<p>this book explains about oop in Java</p>",
+        "imgs": ["/uploadedfiles/java_oop_1_0.png", "/uploadedfiles/java_oop_1_1.jpg"],
+        "pdfUrl": "/uploadedfiles/java_oop_1.pdf",
         "userid": 1
     }],
-    "newid": 3
+    "newid": 4
 }

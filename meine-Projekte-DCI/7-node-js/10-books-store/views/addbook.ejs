@@ -6,7 +6,7 @@
     <title>Book Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#03a6f3">
-    <%-include('partials/htmlCss')%>
+    <%- include('partials/htmlCss')%>
 </head>
 
 <body>
@@ -35,11 +35,11 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
-                            <li class="navbar-item active">
-                                <a href="/main" class="nav-link">Home</a>
+                            <li class="navbar-item">
+                                <a href="index.html" class="nav-link">Home</a>
                             </li>
                             <li class="navbar-item">
-                                <a href="/shop" class="nav-link">Shop</a>
+                                <a href="shop.html" class="nav-link">Shop</a>
                             </li>
                             <li class="navbar-item">
                                 <a href="about.html" class="nav-link">About</a>
@@ -47,8 +47,8 @@
                             <li class="navbar-item">
                                 <a href="faq.html" class="nav-link">FAQ</a>
                             </li>
-                            <li class="navbar-item">
-                                <a href="/login" class="nav-link">Login</a>
+                            <li class="navbar-item active">
+                                <a href="login.html" class="nav-link">Login</a>
                             </li>
                         </ul>
                         <div class="cart my-2 my-lg-0">
@@ -66,34 +66,43 @@
             </div>
         </div>
     </header>
-    <div class="container">
-        <div class="row">
-            <form id ="formD" action="/admin/addBook" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Book Title </label>
-                    <input id="bookTitleInp" type="text" class="form-control" name="bookTitle" placeholder="Meal Title">
-                </div>
-                
-                
-                <div class="form-group">
-                    <label for="bookImgFile">Book Images</label>
-                    <input type="file" name="bookImg" class="form-control-file" multiple id="bookImgFile"
-                        accept="image/x-png,image/gif,image/jpeg">
-                </div>
-                <div class="form-group">
-                    <label for="bookPdf">Book PDF</label>
-                    <input type="file" name="bookPdf" class="form-control-file" id="bookPdfInp"
-                        accept="application/pdf">
-                </div>
-                <div class="form-group">
-                    <label for="bookDetail">book Description</label>
-                    <textarea id="mytextarea" name="bookDetail" class="mytextarea"></textarea>
-                </div>
-                <input id="submitBtn" type="submit" class="btn btn-success" value="saveBtn">
-            </form>
+    <div class="breadcrumb">
+        <div class="container">
+            <a class="breadcrumb-item" href="index.html">Home</a>
+            <span class="breadcrumb-item active">Register</span>
         </div>
     </div>
-
+    <section class="static about-sec">
+        <div class="container">
+            <h1>My Account / Add Book</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's printer took a galley of type and scrambled it to make a type specimen book. It has survived
+                not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
+            <div class="form">
+                <form>
+                    <div class="form-group">
+                        <label for="bookTitleInp">Book Title</label>
+                        <input type="text" class="form-control" id="bookTitleInp" placeholder="Book Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Book Images</label>
+                        <input type="file" class="form-control-file" multiple id="bookImgsInp"
+                            accept="image/x-png,image/gif,image/jpeg">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Book PDF</label>
+                        <input type="file" class="form-control-file"  id="bookPdfInp"
+                        accept="application/pdf" >
+                    </div>
+                    <div class="form-group">
+                        <label for="bookDescriptionInp">Book Description</label>
+                        <textarea class="form-control" id="bookDescriptionInp"></textarea>
+                    </div>
+                    <button class="btn btn-success mt-3" id="bookSaveBtn">save</button>
+                </form>
+            </div>
+        </div>
+    </section>
     <footer>
         <div class="container">
             <div class="row">
@@ -176,12 +185,31 @@
             </div>
         </div>
     </footer>
-    <%-include('partials/htmlJs')%>
+    <div class="modal" tabindex="-1" role="dialog" id="resultModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/htmlJs')%>
+
     <script src="/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
 
-selector: '#mytextarea',
+selector: '#bookDescriptionInp',
 /* theme of the editor */
 theme: "silver",
 skin: "oxide-dark",
@@ -318,37 +346,72 @@ style_formats: [{
 ]
 });
 
-    </script>
-    <script>
-         document.querySelector('#submitBtn').addEventListener('click',(e)=>{
-            e.preventDefault();
-             const bookTitle= document.querySelector('#bookTitleInp').value;
-             const bookImgs = document.querySelector('#bookImgFile').files
-             const bookPdf = document.querySelector('#bookPdfInp').files[0];
-             const bookDescription = tinymce.get('mytextarea').getContent();
-            //  const sendObj ={
-            //     bookTitle:bookTitle,
-            //     bookImgs:bookImgs,
-            //     bookPdf:bookBdf,
-            //     mytextarea:mytextarea
-            //  };
-             console.log(bookTitle);
-             
-              const fd= new FormData();
-              fd.append('bookTitle',bookTitle)
-              for (let i = 0; i < bookImgs.length; i++) {
-                  fd.append('bookImg'+i,bookImgs[i])  
-              }
-              fd.append('bookPdf',bookPdf)
-              fd.append('bookDescription',bookDescription)
 
-            fetch('/admin/addBook',{
-                method: 'POST',
-                body: fd,
-            }) .then(response =>{
-                  
-            })
-         })
+
+document.querySelector('#bookSaveBtn').addEventListener('click', e => {
+e.preventDefault()
+const bookTitle = document.querySelector('#bookTitleInp').value
+const bookDescription = tinymce.get("bookDescriptionInp").getContent();
+const bookImgs = document.querySelector('#bookImgsInp').files
+const bookPdf = document.querySelector('#bookPdfInp').files[0]
+
+// console.log(bookTitle)
+// console.log(bookDescription)
+// console.log(bookImgs)
+// console.log(bookPdf)
+const fd = new FormData()
+fd.append('bookTitle', bookTitle)
+fd.append('bookDescription', bookDescription)
+for (let i = 0; i < bookImgs.length; i++) {
+    fd.append('bookImg' + i, bookImgs[i])
+}
+fd.append('bookPdf', bookPdf)
+
+let url = '/admin/addbook'
+// send fd to server side using fetch
+fetch(url , {
+    method: 'POST',
+    body: fd
+}).then(response => {
+// code here to show modal 
+// if response data was 1 
+// show success modal and clear the inputs
+// else if it was 2 
+// show error modal missing some entries
+
+// check if response is ok
+if (response.status == 200) {
+    // get response data
+response.json().then(data => {
+switch (data) {
+    case 1:
+        showModal(false, 'success', 'The book saved correctly and it will be shown in books gallery')
+        document.querySelector('#bookTitleInp').value = ''
+        tinymce.get("bookDescriptionInp").setContent('')
+        document.querySelector('#bookImgsInp').value = ''
+        document.querySelector('#bookPdfInp').value = ''
+        break;
+    case 2:
+        showModal(true, 'Error', 'Some entries are missing, make sure to enter all required data')
+        break;
+    case 3:
+        showModal(true, 'Book title is exist', 'Book title is exist, please type another book title')
+        break;
+    default:
+        break;
+}
+}).catch(error => {
+    showModal(true, 'Error', 'unknown response format')
+})
+} else {
+    showModal(true, 'Error', 'could not send the data')
+}
+
+
+}).catch(error => {
+    showModal(true, 'Error', 'can not send the data')
+})
+})
     </script>
 </body>
 

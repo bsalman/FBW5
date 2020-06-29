@@ -1,0 +1,39 @@
+{
+    "books": [{
+        "id": 1,
+        "title": "#",
+        "description": "<p>#</p>",
+        "imgs": ["/uploadedfiles/book_1_0.png"],
+        "pdfUrl": "/uploadedfiles/book_1.pdf",
+        "userid": 1
+    }, {
+        "id": 1,
+        "title": "new Book",
+        "description": "function(e){return function(t,n){return void 0===n&&(n={}),R.from(t.getBody()).fold($(\"tree\"===n.format?new hf(\"body\",11):\"\"),function(e){return bf(t,n,e)})}(this,e)}",
+        "imgs": ["./public/uploadedfile/new_Book_1_0.jpg", "./public/uploadedfile/new_Book_1_1.jpeg", "./public/uploadedfile/new_Book_1_2.jpeg"],
+        "pdfUrl": "./public/uploadedfile/new_Book_1_pdf",
+        "userid": 1
+    }, 2, {
+        "id": 1,
+        "title": "new Boke 2",
+        "description": "function(e){return function(t,n){return void 0===n&&(n={}),R.from(t.getBody()).fold($(\"tree\"===n.format?new hf(\"body\",11):\"\"),function(e){return bf(t,n,e)})}(this,e)}",
+        "imgs": ["./public/uploadedfile/new_Boke_2_1_0.jpg"],
+        "pdfUrl": "./public/uploadedfile/new_Boke_2_1_pdf",
+        "userid": 1
+    }, 3, {
+        "id": 1,
+        "title": "test3",
+        "description": "function(e){return function(t,n){return void 0===n&&(n={}),R.from(t.getBody()).fold($(\"tree\"===n.format?new hf(\"body\",11):\"\"),function(e){return bf(t,n,e)})}(this,e)}",
+        "imgs": ["./public/uploadedfile/test3_1_0.jpeg"],
+        "pdfUrl": "./public/uploadedfile/test3_1_pdf",
+        "userid": 1
+    }, 4, {
+        "id": 1,
+        "title": "test3",
+        "description": "function(e){return function(t,n){return void 0===n&&(n={}),R.from(t.getBody()).fold($(\"tree\"===n.format?new hf(\"body\",11):\"\"),function(e){return bf(t,n,e)})}(this,e)}",
+        "imgs": ["./public/uploadedfile/test3_1_0.jpeg"],
+        "pdfUrl": "./public/uploadedfile/test3_1_pdf",
+        "userid": 1
+    }, 5],
+    "newId": 6
+}

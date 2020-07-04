@@ -1,4 +1,5 @@
 const fs = require('fs')
+const passwordHash = require('password-hash')
 
 function registerUser(email, password) {
     // your code here
@@ -15,7 +16,7 @@ function registerUser(email, password) {
         data.users.push({
           id: data.newId,
           email: email,
-          password: password
+          password: passwordHash.generate(password)
         })
         // increas the newid property for data to be used for next registered user
         data.newId++
@@ -100,8 +101,42 @@ function getAllBooks() {
   })
   }
 
+function getBook(id) {
+  return new Promise((resolve, reject) => {
+    const booksJson = fs.readFileSync('./books.json')
+    const booksObj = JSON.parse(booksJson)
+    // find a book with id [id]
+    const foundBook = booksObj.books.find(book => book.id == id)
+    if (foundBook) {
+      resolve(foundBook)
+    } else {
+      reject(new Error('can not find a book with this id : ' + id))
+    }
+  })
+}
+
+function checkUser(email, password) {
+  return new Promise((resolve, reject) => {
+    const usersJson = fs.readFileSync('./users.json')
+    const usersObj = JSON.parse(usersJson)
+    const matchUser = usersObj.users.find(user => user.email == email)
+    if (matchUser) {
+      if (passwordHash.verify(password, matchUser.password)){
+        resolve(matchUser)
+      } else {
+        reject(3)
+      }
+    } else {
+      reject(3)
+    }
+
+  })
+  }
+
   module.exports = {
     registerUser,
     addBook,
-    getAllBooks
+    getAllBooks,
+    getBook,
+    checkUser
   }

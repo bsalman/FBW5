@@ -7,6 +7,7 @@ const fs = require('fs')
 // include dataModule
 const dataModule = require('./modules/dataModule')
 const adminRouter = require('./routes/adminRoutes')
+const { resolve } = require('path')
 
 const app = express()
 app.use(express.static(__dirname + '/public'))
@@ -62,12 +63,54 @@ app.post('/register', (req, res) => {
         }
     
 });
-
+app.get('/login', (req, res) => {
+    if (req.session.user){
+        res.redirect('/admin')
+    } else {
+        res.render('login')
+    }
+    
+});
+app.post('/login', (req, res) => {
+    console.log(req.body);
+    if (req.body.email && req.body.password) {
+        dataModule.checkUser(req.body.email.trim(), req.body.password).then(user => {
+            req.session.user = user
+            res.json(1)
+        }).catch(error => {
+            if (error == 3) {
+                res.json(3)
+            } else {
+                res.json(4)
+            }
+        })
+    } else {
+        res.json(2)
+    }
+    
+});
+ 
 // shop route
 app.get('/shop', (req, res) => {
     dataModule.getAllBooks().then(blabooks => {
         res.render('shop', {books: blabooks})
     })
+    
+});
+
+app.get('/book/:booktitle/:id', (req, res) => {
+    // res.send(req.params.id);
+    dataModule.getBook(req.params.id).then(book => {
+        let checkLogin = false
+        if(req.session.user) {
+            checkLogin = true
+        }
+        res.render('book', {book,checkLogin})
+    }).catch(error => {
+        res.send('404, book could not be found')
+    })
+    
+
     
 });
 app.listen(3000, () => {

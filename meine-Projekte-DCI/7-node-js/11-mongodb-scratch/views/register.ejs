@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="usernameInp" placeholder="User name">
+    <br>
+    <input type="text" name="" id="passwordInp" placeholder="passworld">
+    <br>
+    <button id="register">register</button>
+</body>
+<script>
+    document.querySelector('#register').addEventListener('click',e =>{
+        e.preventDefault()
+        const username = document.querySelector('#usernameInp').value.trim();
+        const password = document.querySelector('#passwordInp').value.trim();
+        if (username&&password) {
+            const sentObj={
+                username,
+                password
+            }
+
+            fetch('/register',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify(sentObj)
+            }).then(respons=>{
+                if (respons.status===200) {
+                   respons.json().then(data=>{
+                    console.log(data);
+                     if (data===1) {
+                        alert('your register success')
+                        document.querySelector('#usernameInp').value='';
+                        document.querySelector('#passwordInp').value=''
+                     }else{
+                         if (data==3) {
+                             alert('user is exist')
+                         }else{
+                              alert('somthing went wrong please try again later')
+                         }
+                       
+                 }
+                    
+                }) .catch(error=>{
+                    alert('unknown respons')
+                })
+                }else{
+                    alert('can not send data')
+                }
+                
+            }).catch(error=>{
+                console.log(error);
+                
+            })
+            
+        }
+
+    })
+</script>
+
+</html>

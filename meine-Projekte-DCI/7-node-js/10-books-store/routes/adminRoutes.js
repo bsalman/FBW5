@@ -2,7 +2,16 @@ const express = require('express')
 const dataModule = require('../modules/dataModule')
 
 const adminRouter = express.Router()
-
+adminRouter.use((req, res, next) => {
+    if (req.session.user) {
+        next()
+    } else {
+        res.redirect('/login')
+    }
+})
+adminRouter.get('/', (req, res) => {
+    res.render('admin')
+})
 adminRouter.get('/addbook', (req, res) => {
     res.render('addbook');
 })
@@ -44,4 +53,5 @@ if (bookTitle && bookDescription && bookPdf && Object.keys( req.files).length > 
 }
 
 })
+
 module.exports = adminRouter

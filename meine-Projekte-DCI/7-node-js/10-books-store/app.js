@@ -6,9 +6,7 @@ const fs = require('fs')
 
 // include dataModule
 const dataModule = require('./modules/mongodbDataModule')
-// const dataModule = require('./modules/dataModule')
 const adminRouter = require('./routes/adminRoutes')
-const { resolve } = require('path')
 
 const app = express()
 app.use(express.static(__dirname + '/public'))
@@ -77,6 +75,7 @@ app.post('/login', (req, res) => {
     if (req.body.email && req.body.password) {
         dataModule.checkUser(req.body.email.trim(), req.body.password).then(user => {
             req.session.user = user
+            console.log(user)
             res.json(1)
         }).catch(error => {
             if (error == 3) {
@@ -101,19 +100,23 @@ app.get('/shop', (req, res) => {
 
 app.get('/book/:booktitle/:id', (req, res) => {
     // res.send(req.params.id);
-    dataModule.getBook(req.params.id).then(book => {
-        let checkLogin = false
+    
+        dataModule.getBook(req.params.id).then(book => {
+          
+         let checkLogin = false
         if(req.session.user) {
             checkLogin = true
         }
-        res.render('book', {book,checkLogin})
+        res.render('book', {book, checkLogin})
+            
+       
     }).catch(error => {
         res.send('404, book could not be found')
     })
-    
-
-    
+   
+      
+   
 });
-app.listen(3000, () => {
-    console.log('App listening on port 3000!');
+app.listen(4000, () => {
+    console.log('App listening on port 4000!');
 });

@@ -1,5 +1,5 @@
 const express = require('express')
-const dataModule = require('../modules/dataModule')
+const dataModule = require('../modules/mongodbDataModule')
 
 const adminRouter = express.Router()
 adminRouter.use((req, res, next) => {
@@ -37,7 +37,7 @@ if (bookTitle && bookDescription && bookPdf && Object.keys( req.files).length > 
             
         }
     }
-    dataModule.addBook(bookTitle, bookDescription, bookPdf, imgs ).then(() => {
+    dataModule.addBook(bookTitle, bookDescription, bookPdf, imgs, req.session.user._id ).then(() => {
         res.json(1)
     }).catch(error => {
         if (error == 3) {

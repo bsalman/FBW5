@@ -100,26 +100,16 @@ app.get('/shop', (req, res) => {
 
 app.get('/book/:booktitle/:id', (req, res) => {
     // res.send(req.params.id);
-    
-        dataModule.getBook(req.params.id).then(book => {
-          
-         let checkLogin = false
+    dataModule.getBook(req.params.id).then(book => {
+        let checkLogin = false
         if(req.session.user) {
             checkLogin = true
         }
         res.render('book', {book, checkLogin})
-            
-       
     }).catch(error => {
         res.send('404, book could not be found')
     })
-   
-      
-   
 });
-
-
-
-app.listen(4000, () => {
-    console.log('App listening on port 4000!');
+app.listen(3000, () => {
+    console.log('App listening on port 3000!');
 });

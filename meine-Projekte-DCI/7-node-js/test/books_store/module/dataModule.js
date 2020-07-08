@@ -66,6 +66,10 @@ fs.writeFileSync('./booksFile.json',JSON.stringify(booksObj))
 
 }
 
+function getAllBooks(){
+    
+}
+
 module.exports={
     registerUser,
     addNewBooks

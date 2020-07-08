@@ -27,7 +27,7 @@
         <div class="main-menu">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="index.html"><img src="/images/logo.png" alt="logo"></a>
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="logo"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -68,13 +68,13 @@
     </header>
     <div class="breadcrumb">
         <div class="container">
-            <a class="breadcrumb-item" href="index.html">Home</a>
+            <a class="breadcrumb-item" href="/">Home</a>
             <span class="breadcrumb-item active">Register</span>
         </div>
     </div>
     <section class="static about-sec">
         <div class="container">
-            <h1>My Account / Add Book</h1>
+            <h1>My Account / Edit Book 2</h1>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
                 industry's printer took a galley of type and scrambled it to make a type specimen book. It has survived
                 not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
@@ -82,21 +82,32 @@
                 <form>
                     <div class="form-group">
                         <label for="bookTitleInp">Book Title</label>
-                        <input type="text" class="form-control" id="bookTitleInp" placeholder="Book Title">
+                        <input type="text" class="form-control" id="bookTitleInp" placeholder="Book Title" value="<%=book.title%>">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlFile1">Book Images</label>
+                       
+                            <div class=" row "> 
+                              <%for(let i=0 ;i < book.imgs.length;i++){%> 
+                                <div class="col-md-3">
+                                    <a href="#" class="deletImg">x</a>
+                                <img class="bookImg" src="<%=book.imgs[i]%>" style="width: 100px;height: 200px;" alt="">
+                                </div> 
+                                 <%}%>
+                            </div>
+                            
                         <input type="file" class="form-control-file" multiple id="bookImgsInp"
                             accept="image/x-png,image/gif,image/jpeg">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlFile1">Book PDF</label>
-                        <input type="file" class="form-control-file"  id="bookPdfInp"
+                        <span class="badge badge-secondary" ><%=book.pdfUrl.substr(book.pdfUrl.lastIndexOf('/')+1)%>  <a href="#" id="deletPdf">x</a> </span>
+                        <input type="file" class="form-control-file"  id="bookPdfInp" disabled
                         accept="application/pdf" >
                     </div>
                     <div class="form-group">
                         <label for="bookDescriptionInp">Book Description</label>
-                        <textarea class="form-control" id="bookDescriptionInp"></textarea>
+                        <textarea class="form-control" id="bookDescriptionInp"> <%=book.description%></textarea>
                     </div>
                     <button class="btn btn-success mt-3" id="bookSaveBtn">save</button>
                 </form>
@@ -346,72 +357,158 @@ style_formats: [{
 ]
 });
 
+document.querySelectorAll('.deletImg').forEach(element => {
+    element.addEventListener('click',e=>{
+        e.preventDefault();
+        e.target.parentElement.remove()
+    })
+});
+document.querySelector('#deletPdf').addEventListener('click',e=>{
+    e.preventDefault();
+        e.target.parentElement.remove()
+        document.querySelector('#bookPdfInp').disabled=false
+})
+
+document.querySelector('#bookSaveBtn').addEventListener('click',e=>{
+    e.preventDefault();
+//=======================/edit book titel/=============================/    
+const bookTitle = document.querySelector('#bookTitleInp').value.trim()
+if(!bookTitle){
+    showModal(true,'inter Book title',"Book Title should not be empty")
+    //  we are using return just to stop the function if there is error 
+    //and we dont whant to send any thing to serve seid if we have an error
+return
+}
+//===================/ edit imgs /==========================//
+  const oldImgElement = document.querySelectorAll('.bookImg')
+  const newBookImg =document.querySelector('#bookImgsInp').files
+  //check if hte user uplod new images or left some old images 
+  if (oldImgElement.length == 0 && newBookImg.length == 0) {
+    showModal(true,'inter Book images',"Bookimages should not be empty")   
+    //  we are using return just to stop the function if there is error 
+    //and we dont whant to send any thing to serve seid if we have an error
+    return
+  }
+  //================================/edit pdf file/============================//
+  const deletPdf= document.querySelector('#deletPdf')
+  const bookPdf = document.querySelector('#bookPdfInp').files
+  //check if the user upload or the old one stell exist
+  if (!deletPdf&& bookPdf.length==0) {
+    showModal(true,'inter Book pdf',"Book pdf should not be empty")
+    //  we are using return just to stop the function if there is error 
+    //and we dont whant to send any thing to serve seid if we have an error
+    return
+  }
 
 
-document.querySelector('#bookSaveBtn').addEventListener('click', e => {
-e.preventDefault()
-const bookTitle = document.querySelector('#bookTitleInp').value
-const bookDescription = tinymce.get("bookDescriptionInp").getContent();
-const bookImgs = document.querySelector('#bookImgsInp').files
-const bookPdf = document.querySelector('#bookPdfInp').files[0]
-
-// console.log(bookTitle)
-// console.log(bookDescription)
-// console.log(bookImgs)
-// console.log(bookPdf)
+//==========================/sending the data to server side /==========================================//
 const fd = new FormData()
-fd.append('bookTitle', bookTitle)
-fd.append('bookDescription', bookDescription)
-for (let i = 0; i < bookImgs.length; i++) {
-    fd.append('bookImg' + i, bookImgs[i])
-}
-fd.append('bookPdf', bookPdf)
-
-let url = '/admin/addbook'
-// send fd to server side using fetch
-fetch(url , {
-    method: 'POST',
-    body: fd
-}).then(response => {
-// code here to show modal 
-// if response data was 1 
-// show success modal and clear the inputs
-// else if it was 2 
-// show error modal missing some entries
-
-// check if response is ok
-if (response.status == 200) {
-    // get response data
-response.json().then(data => {
-switch (data) {
-    case 1:
-        showModal(false, 'success', 'The book saved correctly and it will be shown in books gallery')
-        document.querySelector('#bookTitleInp').value = ''
-        tinymce.get("bookDescriptionInp").setContent('')
-        document.querySelector('#bookImgsInp').value = ''
-        document.querySelector('#bookPdfInp').value = ''
-        break;
-    case 2:
-        showModal(true, 'Error', 'Some entries are missing, make sure to enter all required data')
-        break;
-    case 3:
-        showModal(true, 'Book title is exist', 'Book title is exist, please type another book title')
-        break;
-    default:
-        break;
-}
-}).catch(error => {
-    showModal(true, 'Error', 'unknown response format')
+// booktitle we get it from line 374
+fd.append('newBookTitle',bookTitle)
+//collect old  images urle
+const oldImgsArr=[]
+oldImgElement.forEach(img=>{
+    oldImgsArr.push(img.src)
 })
-} else {
-    showModal(true, 'Error', 'could not send the data')
+//convert oldImgsArr to string to be able to add it in fd 
+//because FormData eccept only strings 
+
+fd.append('oldImgsUrls',JSON.stringify(oldImgsArr))
+
+for (let i = 0; i < newBookImg.length; i++) {
+    fd.append('bookImg'+i,newBookImg[i])
+    
 }
 
+   
 
-}).catch(error => {
-    showModal(true, 'Error', 'can not send the data')
+ if(bookPdf.length){
+     fd.append('bookPdf',bookPdf[0])
+ }
+fd.append('bookDescription',tinymce.get("bookDescriptionInp").getContent())
+
+
+fetch('/admin/editbook',{
+    method:'POST',
+    body:fd
+}).then(response=>{
+  if (response.status ==200) {
+      
+  }else{
+    showModal(true,'Error',"can not send the data")
+  }
+
+}).catch(error=>{
+    showModal(true,'Error',"can not send the data")
 })
+
 })
+
+//===================================================================================//
+// document.querySelector('#bookSaveBtn').addEventListener('click', e => {
+// e.preventDefault()
+// const bookTitle = document.querySelector('#bookTitleInp').value
+// const bookDescription = tinymce.get("bookDescriptionInp").getContent();
+// const bookImgs = document.querySelector('#bookImgsInp').files
+// const bookPdf = document.querySelector('#bookPdfInp').files[0]
+
+// // console.log(bookTitle)
+// // console.log(bookDescription)
+// // console.log(bookImgs)
+// // console.log(bookPdf)
+// const fd = new FormData()
+// fd.append('bookTitle', bookTitle)
+// fd.append('bookDescription', bookDescription)
+// for (let i = 0; i < bookImgs.length; i++) {
+//     fd.append('bookImg' + i, bookImgs[i])
+// }
+// fd.append('bookPdf', bookPdf)
+
+// let url = '/admin/addbook'
+// // send fd to server side using fetch
+// fetch(url , {
+//     method: 'POST',
+//     body: fd
+// }).then(response => {
+// // code here to show modal 
+// // if response data was 1 
+// // show success modal and clear the inputs
+// // else if it was 2 
+// // show error modal missing some entries
+
+// // check if response is ok
+// if (response.status == 200) {
+//     // get response data
+// response.json().then(data => {
+// switch (data) {
+//     case 1:
+//         showModal(false, 'success', 'The book saved correctly and it will be shown in books gallery')
+//         document.querySelector('#bookTitleInp').value = ''
+//         tinymce.get("bookDescriptionInp").setContent('')
+//         document.querySelector('#bookImgsInp').value = ''
+//         document.querySelector('#bookPdfInp').value = ''
+//         break;
+//     case 2:
+//         showModal(true, 'Error', 'Some entries are missing, make sure to enter all required data')
+//         break;
+//     case 3:
+//         showModal(true, 'Book title is exist', 'Book title is exist, please type another book title')
+//         break;
+//     default:
+//         break;
+// }
+// }).catch(error => {
+//     showModal(true, 'Error', 'unknown response format')
+// })
+// } else {
+//     showModal(true, 'Error', 'could not send the data')
+// }
+
+
+// }).catch(error => {
+//     showModal(true, 'Error', 'can not send the data')
+// })
+// })
     </script>
 </body>
 

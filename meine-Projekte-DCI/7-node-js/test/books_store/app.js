@@ -1,6 +1,8 @@
 //=====================declaration area_start============//
 const express = require ('express')
 
+const session = require("express-session")
+
 const fileupload = require('express-fileupload')
 
 const dataModule = require('./module/dataModule')
@@ -8,13 +10,17 @@ const dataModule = require('./module/dataModule')
 const app =express()
 
 const daminRouter = require('./routes/adminRoute')
+
 const fs = require('fs')
 
-
+const sessionOptions ={
+    secret:'bookStor',
+    cookie:{}
+}
 //=====================declaration end============//
 
 //=====================express_use_set_area_start============//
-app.use(express.static('./public'))
+app.use(express.static(__dirname+'./public'))
 app.use(express.json())
 app.set('view engine','ejs')
 app.set('views',__dirname+'/views')
@@ -23,6 +29,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(fileupload({
     limits: { fileSize: 50 * 1024 * 1024 }
 }))
+app.use(session(sessionOptions))
 app.use('/admin',daminRouter);
 //===================== express_use_set_area_end============//
 //===================== express_get_post_area_start============//

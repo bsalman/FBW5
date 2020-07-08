@@ -10,7 +10,7 @@ adminRouter.use((req, res, next) => {
     }
 })
 adminRouter.get('/', (req, res) => {
-    res.render('admin')
+    res.render('admin',{email:req.session.user.email})
 })
 adminRouter.get('/addbook', (req, res) => {
     res.render('addbook');
@@ -53,5 +53,42 @@ if (bookTitle && bookDescription && bookPdf && Object.keys( req.files).length > 
 }
 
 })
+
+adminRouter.get('/mybooks', (req, res) => {
+    dataModule.userBooks(req.session.user._id).then(books => {
+        res.render('myBooks', {books})
+    }).catch(error=>{
+        res.send("404")
+    })
+})
+adminRouter.get('/logout',(req, res) => {
+    req.session.destroy()
+    res.redirect('/login')
+})
+
+// adminRouter.get('/editBook',(req,res)=>{
+//     dataModule.editBooks().then(books=>{
+//          res.render('editBooks',{books: books})
+//     }).catch(error=>{res.send("404")})
+   
+// })
+
+adminRouter.get('/mybook/:id',(req,res)=>{
+    const bookid=req.params.id 
+    dataModule.getBook(bookid).then(book=>{
+        res.render('editBook2', {book})
+    }).catch(error=>{
+        res.send('this book not exist')
+    })
+})
+
+adminRouter.post('/editbook',(req,res)=>{
+    const {newBookTitle,oldImgsUrls,bookDescription} = req.body
+    console.log(newBookTitle,oldImgsUrls,bookDescription);
+    
+    res.json(1)
+    
+})
+
 
 module.exports = adminRouter

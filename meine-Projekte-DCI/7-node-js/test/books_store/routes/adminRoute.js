@@ -5,9 +5,9 @@ daminRouter.get('/',(req,res)=>{
     res.render('admin')
 })
 daminRouter.get('/addBook',(req,res)=>{
-    res.render('addBook')
+    res.render('addBooks')
 })
-daminRouter.post('/addBook',(req,res)=>{
+daminRouter.post('/addBooks',(req,res)=>{
 
      // responses map
     // 1 book saved successfuly

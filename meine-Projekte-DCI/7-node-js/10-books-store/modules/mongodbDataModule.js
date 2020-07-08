@@ -1,6 +1,6 @@
 const passwordHash = require('password-hash')
 const {MongoClient, ObjectID} = require('mongodb')
-const { response } = require('express')
+
 
 const connectionString = 'mongodb+srv://fbw5:bashar12345@cluster0.jufz4.mongodb.net/test1?retryWrites=true&w=majority'
 
@@ -148,6 +148,27 @@ function connect() {
     })
 
   }
+  function editBooks(){
+    return new Promise((resolve, reject) => {
+        connect().then(client => {
+            
+            const db = client.db('test1')
+            db.collection('books').find().toArray().then(books=>{
+               books.forEach(book=>{
+                   book['id']=book['_id']
+               })
+               client.close();
+            resolve(books)
+            }).catch(error => {
+                client.close();
+                reject(error)
+            })
+            
+
+        }).catch(error =>{reject(error)})
+    })
+
+  }
   function getBook(id) {
     return new Promise((resolve, reject) => {
         connect().then(client=>{
@@ -156,7 +177,7 @@ function connect() {
                     client.close()
                     book.id=book['_id']
                 resolve(book)
-                console.log(book);
+                // console.log(book);
             }).catch(error=>{
                 client.close()
                 reject(error)
@@ -167,10 +188,32 @@ function connect() {
     })
   }
 
+  function  userBooks(userid){
+      return new Promise((resolve,reject)=>{
+      
+            connect().then(client => {
+                
+                const db = client.db('test1')
+                db.collection('books').find({userid:userid}).toArray().then(books=>{
+                   books.forEach(book=>{
+                       book['id']=book['_id']
+                   })
+                   client.close();
+                resolve(books)
+                }).catch(error => {
+                    client.close();
+                    reject(error)
+                })
+          }).catch(error=>{reject(error)})
+      })
+  }
+
   module.exports = {
     registerUser,
     checkUser,
     addBook,
     getAllBooks,
-    getBook
+    getBook,
+    userBooks,
+    editBooks
   }

@@ -4,7 +4,7 @@ const {MongoClient, ObjectID} = require('mongodb')
 const fs = require('fs')
 const { error } = require('console')
 
-const connectionString = 'mongodb+srv://user1:Rbt6CCjKCHdYYwfe@cluster0.jufz4.mongodb.net/test1?retryWrites=true&w=majority'
+const connectionString = 'mongodb+srv://username:password 0.jufz4.mongodb.net/?retryWrites=true&w=majority'
 
 function connect() {
     return new Promise((resolve, reject) => {

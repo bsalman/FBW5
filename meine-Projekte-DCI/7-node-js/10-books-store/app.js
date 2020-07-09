@@ -94,7 +94,10 @@ app.post('/login', (req, res) => {
 app.get('/shop', (req, res) => {
     dataModule.getAllBooks().then(blabooks => {
         res.render('shop', {books: blabooks})
-    })
+    }).catch(error => {
+        res.send('Wrong page ')
+    }
+        )
     
 });
 

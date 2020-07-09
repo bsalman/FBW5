@@ -75,11 +75,11 @@
             <div class="recent-book-sec">
                 <div class="row">
                     <%for (let i = 0; i < books.length; i++){%>
-                    <div class="col-md-3">
+                    <div class="col-md-3" id="oneBook">
                         <div class="item">
                             <img class="bookimage" src="<%= books[i].imgs[0]%>" alt="img">
                             <h3><a href="/admin/mybook/<%=books[i].id%>"><%= books[i].title%></a></h3>
-                            <h6><a href="/admin/mybook/<%=books[i].id%>">Download</a></h6>
+                            <h6><a href="/admin/mybook/<%=books[i].id%>">Edit</a></h6> &nbsp;<h6><a bookid="<%= books[i].id%>" class="showDeleteModalBtn"href="#">delet</a></h6>
                         </div>
                     </div>
                     <%}%>
@@ -89,6 +89,8 @@
                 </div>
             </div>
         </div>
+
+
     </section>
     <footer>
         <div class="container">
@@ -172,7 +174,65 @@
             </div>
         </div>
     </footer>
+<!--  ================== delet modal=========================== -->       
+<div class="modal" tabindex="-1" role="dialog" id="deletModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">delet book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you shor that you wahnt to delet the book.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deleteBookBtn" >Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ================== delet modal end =========================== -->
+
     <%- include('partials/htmlJs')%>
+    <script>
+        let bookid;
+        document.querySelectorAll('.showDeleteModalBtn').forEach(btn => {
+             addEventListener('click',(e)=>{
+                 e.preventDefault()
+            $("#deletModal").modal('show')
+            bookid = e.target.getAttribute('bookid')
+            //    alert(bookid)
+        });  
+            
+        })
+        document.querySelector('#deleteBookBtn').addEventListener('click',(e)=>{
+            e.preventDefault();
+            fetch('/admin/deletebook',{
+                method:'POST',
+                headers:{
+                    'Content-type':'application/json'
+                },
+                body:JSON.stringify({bookid})
+            }).then(response=>{
+                $("#deletModal").modal('hide')
+                if (response.status==200) {
+                    response.json().then(data=>{
+                        if(data==1){
+                            document.querySelector('a[bookid='+bookid+']').parentElement.parentElement.parentElement.remove()
+                        }else{
+                            alert('error can not connect the server')
+                        }
+                    })
+                    
+                }
+            }).catch(error=>{})
+        })
+
+        
+    </script>
 </body>
 
 </html>

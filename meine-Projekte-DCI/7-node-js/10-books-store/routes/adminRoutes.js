@@ -108,5 +108,13 @@ res.json(2)
     
 
 })
+adminRouter.post('/deletebook',(req,res)=>{
+    const bookid= req.body.bookid
+    dataModule.deleteBook(bookid,req.session.user._id).then(()=>{
+        res.json(1)
+    }).catch(error=>{
+        res.json(2)
+    })
+})
 
 module.exports = adminRouter

@@ -1,8 +1,10 @@
 const passwordHash = require('password-hash')
 const {MongoClient, ObjectID} = require('mongodb')
-const { response } = require('express')
+
 const fs = require('fs')
-const connectionString = 'mongodb+srv://fbw5:@cluster0-rmrmn.mongodb.net/test1?retryWrites=true&w=majority'
+const { error } = require('console')
+
+const connectionString = 'mongodb+srv://user1:Rbt6CCjKCHdYYwfe@cluster0.jufz4.mongodb.net/test1?retryWrites=true&w=majority'
 
 function connect() {
     return new Promise((resolve, reject) => {
@@ -255,6 +257,40 @@ function updateBook(bookid, newBookTitle, oldImgsUrls, bookDescription, newPdfBo
     })
   }
 
+  function deleteBook(bookid,userid) {
+      return new Promise((resolve,reject)=>{
+        getBook(bookid).then((book)=>{
+             if(book.userid==userid){
+               book.imgs.forEach(img=>{
+                   if (fs.existsSync('./public'+img)) {
+                       fs.unlinkSync('./public'+img)
+                       
+                   }
+               })
+               if (fs.existsSync('./public'+book.pdfUrl)) {
+                 fs.unlinkSync('./public'+book.pdfUrl)  
+               }
+              connect().then(client => {
+                const db = client.db('test1')
+                db.collection('books').deleteOne({_id:new ObjectID(bookid)}).then(()=>{
+                    client.close()
+                    resolve()
+                }).catch(error=>{
+                    reject(error)
+                })
+
+              }).catch(error=>{
+                  reject(error)
+              })
+             }else{
+                 rereject(new Error('hacking try'))
+             }
+        }).catch(error=>{
+            rereject(error)
+        })
+      })
+     
+  }
   module.exports = {
     registerUser,
     checkUser,
@@ -262,5 +298,6 @@ function updateBook(bookid, newBookTitle, oldImgsUrls, bookDescription, newPdfBo
     getAllBooks,
     getBook,
     userBooks,
-    updateBook
+    updateBook,
+    deleteBook
   }

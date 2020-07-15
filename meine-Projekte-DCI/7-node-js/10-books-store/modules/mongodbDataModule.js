@@ -2,7 +2,7 @@ const passwordHash = require('password-hash')
 const {MongoClient, ObjectID} = require('mongodb')
 
 const fs = require('fs')
-const { error } = require('console')
+
 
 const connectionString = 'mongodb+srv://user1:Rbt6CCjKCHdYYwfe@cluster0.jufz4.mongodb.net/test1?retryWrites=true&w=majority'
 
@@ -77,6 +77,8 @@ function connect() {
           })
       })
   }
+
+  
   function addBook(bookTitle, bookDescription, bookPdf, bookImgs, userid) {
       return new Promise((resolve, reject) => {
           connect().then(client => {

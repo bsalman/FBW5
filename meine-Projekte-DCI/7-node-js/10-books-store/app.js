@@ -5,7 +5,7 @@ const cookie = require('cookie-parser')
 const fs = require('fs')
 
 // include dataModule
-const dataModule = require('./modules/mongodbDataModule')
+const dataModule = require('./modules/mongooseDataModule')
 const adminRouter = require('./routes/adminRoutes')
 
 const app = express()
@@ -89,6 +89,23 @@ app.post('/login', (req, res) => {
     }
     
 });
+
+
+// app.get('/connect', (req, res) => {
+//     // check if mongoose is already connected to database
+//     if (mongoose.connection.readyState === 1) {
+//         res.send('Already connected');
+//     } else {
+//         mongoose.connect(connectionString, {
+//             useCreateIndex: true,
+//             useNewUrlParser: true
+//         }).then(() => {
+//             res.send('it is connected now');
+//         }).catch(error => {
+//             res.send(error);
+//         })
+//     }
+// });
  
 // shop route
 app.get('/shop', (req, res) => {

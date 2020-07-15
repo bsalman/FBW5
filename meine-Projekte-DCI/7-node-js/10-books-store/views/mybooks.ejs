@@ -79,7 +79,8 @@
                         <div class="item">
                             <img class="bookimage" src="<%= books[i].imgs[0]%>" alt="img">
                             <h3><a href="/admin/mybook/<%=books[i].id%>"><%= books[i].title%></a></h3>
-                            <h6><a href="/admin/mybook/<%=books[i].id%>">Edit</a></h6> &nbsp;<h6><a bookid="<%= books[i].id%>" class="showDeleteModalBtn"href="#">delet</a></h6>
+                            <h6><a href="/admin/mybook/<%=books[i].id%>">Edit</a></h6> &nbsp;</h6>
+                            <h6><a bookid="<%= books[i].id%>" class="showDeleteModalBtn"href="#">delet</a></h6>
                         </div>
                     </div>
                     <%}%>
@@ -198,16 +199,16 @@
 
     <%- include('partials/htmlJs')%>
     <script>
-        let bookid;
-        document.querySelectorAll('.showDeleteModalBtn').forEach(btn => {
-             addEventListener('click',(e)=>{
-                 e.preventDefault()
-            $("#deletModal").modal('show')
-            bookid = e.target.getAttribute('bookid')
-            //    alert(bookid)
-        });  
+        // let bookid;
+        // document.querySelectorAll('.showDeleteModalBtn').forEach(btn => {
+        //      addEventListener('click',(e)=>{
+        //          e.preventDefault()
+        //     $("#deletModal").modal('show')
+        //     bookid = e.target.getAttribute('bookid')
+        //     //    alert(bookid)
+        // });  
             
-        })
+        // })
         document.querySelector('#deleteBookBtn').addEventListener('click',(e)=>{
             e.preventDefault();
             fetch('/admin/deletebook',{

@@ -360,6 +360,7 @@ const bookPdf = document.querySelector('#bookPdfInp').files[0]
 // console.log(bookImgs)
 // console.log(bookPdf)
 const fd = new FormData()
+
 fd.append('bookTitle', bookTitle)
 fd.append('bookDescription', bookDescription)
 for (let i = 0; i < bookImgs.length; i++) {

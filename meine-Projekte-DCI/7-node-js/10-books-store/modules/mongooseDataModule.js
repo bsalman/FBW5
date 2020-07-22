@@ -343,20 +343,18 @@ function deleteBook(bookid, userid) {
                 if (fs.existsSync('./public' + book.pdfUrl)) {
                     fs.unlinkSync('./public' + book.pdfUrl)
                 }
-                connect().then(client => {
-                    const db = client.db('test1')
-                    db.collection('books').deleteOne({
-                        _id: new ObjectID(bookid)
+                
+                    
+                    Books.deleteOne({
+                        _id: bookid
                     }).then(() => {
-                        client.close()
+                        
                         resolve()
                     }).catch(error => {
                         reject(error)
                     })
 
-                }).catch(error => {
-                    reject(error)
-                })
+                
             } else {
                 rereject(new Error('hacking try'))
             }

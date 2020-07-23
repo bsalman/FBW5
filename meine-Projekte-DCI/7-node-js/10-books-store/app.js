@@ -5,7 +5,7 @@ const cookie = require('cookie-parser')
 const fs = require('fs')
 
 // include dataModule
-const dataModule = require('./modules/mongooseDataModule')
+const dataModule = require('./modules/mySqlDataModules')
 const adminRouter = require('./routes/adminRoutes')
 
 const app = express()
@@ -130,6 +130,6 @@ app.get('/book/:booktitle/:id', (req, res) => {
         res.send('404, book could not be found')
     })
 });
-app.listen(3000, () => {
-    console.log('App listening on port 3000!');
+app.listen(4000, () => {
+    console.log('App listening on port 4000!');
 });

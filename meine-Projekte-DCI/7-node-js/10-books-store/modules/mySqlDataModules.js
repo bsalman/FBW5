@@ -8,6 +8,7 @@ const mySql = require('mysql')
 
 //==============================================================//
 let con = null
+
 function connect() {
     return new Promise((resolve, reject) => {
         if (con) {
@@ -39,7 +40,8 @@ function connect() {
                 }
             })
         }
-})}
+    })
+}
 //======================================================//
 function runQuery(queryString) {
     return new Promise((resolve, reject) => {
@@ -137,190 +139,199 @@ function addBook(bookTitle, bookDescription, bookPdf, bookImgs, userid) {
 
 function getAllBooks() {
     return new Promise((resolve, reject) => {
-        connect().then(() => {
-            // delete const db = client.db('test1')
-            Books.find().then(books => {
-                // add id property to each book instead of _id
-                // becausethis how it used in ejs
-                books.forEach(book => {
-                    // book.id = book._id
-                    book['id'] = book['_id']
-                })
-                // delete client.close()
-                resolve(books)
-            }).catch(error => {
-                // delete client.close()
-                reject(error)
+        runQuery("SELECT books.*,imgs.* FROM books INNER JOIN imgs On books.id=imgs.bookId").then((results) => {
+            console.log(results);
+            const books = []
+
+            results.forEach(result => {
+                let book = books.find(element => element.id === result.bookId)
+                if (book) {
+                    book.imgs.push(result.imgUrl)
+                } else {
+                    books.push({
+                        id: result.bookId,
+                        title: result.Title,
+                        description: result.Description,
+                        pdfUrl: result.pdf_url,
+                        userid: result.user_id,
+                        imgs: [result.imgUrl]
+
+                    })
+
+                }
             })
-        }).catch(error => {
-            reject(error)
+            resolve(books)
         })
+    }).catch(error => {
+
+        reject(error)
     })
 }
-
+//============================================================================//
 function getBook(id) {
     return new Promise((resolve, reject) => {
-        connect().then(() => {
-            // delete const db = client.db('test1')
-            Books.findOne({
-                _id: id
-            }).then(book => {
-                // delete client.close()
-                if (book) {
-                    book.id = book._id
-                    resolve(book)
-                } else {
-                    reject(new Error('can not find a book with this id : ' + id))
-                }
-            }).catch(error => {
-                //delete client.close()
-                reject(error)
-            })
-        }).catch(error => {
-            reject(error)
-        })
-    })
-}
-
-function userBooks(userid) {
-    return new Promise((resolve, reject) => {
-        connect().then(() => {
-            // delete const db = client.db('test1')
-            Books.find({
-                userid: userid
-            }).then(books => {
-                // add id property to each book instead of _id
-                // becausethis how it used in ejs
-                books.forEach(book => {
-                    // book.id = book._id
-                    book['id'] = book['_id']
-                })
-                // delete client.close()
-                resolve(books)
-            }).catch(error => {
-                // delete client.close()
-                reject(error)
-            })
-        }).catch(error => {
-            reject(error)
-        })
-    })
-}
-
-function updateBook(bookid, newBookTitle, oldImgsUrls, bookDescription, newPdfBook, newImgs, userid) {
-    return new Promise((resolve, reject) => {
-        try {
-
-
-            (async () => {
-                let oldBookData = await getBook(bookid)
-                const deletedImgs = []
-                const keepImgs = []
-                // get update version number
-                // let updateNum = 1
-                // if(oldBookData.update){
-                //     updateNum = oldBookData.update +1
-                // }
-
-                // check which images user wants to keep and which to delete
-                oldBookData.imgs.forEach(img => {
-                    if (oldImgsUrls.indexOf(img) >= 0) {
-                        keepImgs.push(img)
+        runQuery(`SELECT books.*,imgs.* FROM books INNER JOIN imgs ON books.id = imgs.bookId WHERE imgs.bookId=${id}`).then((results) => {
+            if (results.length) {
+                const book={}
+                results.forEach(result => {
+                    if (book.id) {
+                        book.imgs.push(result.imgUrl)
                     } else {
-                        deletedImgs.push(img)
-                    }
-                })
-                // save new images to file system and to array to be saved to db
-                const newImgsUrlsArr = []
-                newImgs.forEach((img, idx) => {
-                    const imgExt = img.name.substr(img.name.lastIndexOf('.'))
-                    const newImgName = newBookTitle.trim().replace(/ /g, '_') + '_' + userid + '_' + idx + '_' + (oldBookData.__v + 1) + imgExt
-                    newImgsUrlsArr.push('/uploadedfiles/' + newImgName)
-                    img.mv('./public/uploadedfiles/' + newImgName)
-                })
-                // delete the deleted images files from the system
-                deletedImgs.forEach(file => {
-                    // first check file is exist
-                    if (fs.existsSync('./public' + file)) {
-                        fs.unlinkSync('./public' + file)
-                    }
-                })
-                // check if user upload a new pdf file and move it to the same place of the old one so it will OVERWRITE it
-                if (newPdfBook) {
-                    newPdfBook.mv('./public' + oldBookData.pdfUrl)
-                }
-                // await connect()
-                // delete const db = client.db('test1')
-                await Books.updateOne({
-                    _id: bookid
-                }, {
-
-                    title: newBookTitle,
-                    description: bookDescription,
-                    imgs: [...keepImgs, ...newImgsUrlsArr],
-                    //delete update: updateNum,
-                    $inc: {
-                        __v: 1
-                    }
-
-                })
-                // delete client.close()
-                resolve()
-
-            })()
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
-function deleteBook(bookid, userid) {
-    return new Promise((resolve, reject) => {
-        getBook(bookid).then(book => {
-            // check if the book belong to the current login user
-            if (book.userid === userid) {
-                // delete book images
-                book.imgs.forEach(img => {
-                    //check the img file is exist then delete it
-                    if (fs.existsSync('./public' + img)) {
-                        fs.unlinkSync('./public' + img)
-                    }
-                })
-                // delete pdf file
-                // check if pdf file is exist then delete it
-                if (fs.existsSync('./public' + book.pdfUrl)) {
-                    fs.unlinkSync('./public' + book.pdfUrl)
-                }
-                // connect().then(client => {
-                // const db = client.db('test1')
-                Books.deleteOne({
-                    _id: bookid
-                }).then(() => {
-                    // client.close()
-                    resolve()
-                }).catch(error => {
-                    // client.close()
-                    reject(error)
-                })
-                // }).catch(error => {
-                //     reject(error)
-                // })
+                            book.id= result.bookId
+                            book.title= result.Title
+                            book.description= result.Description
+                            book.pdfUrl= result.pdf_url
+                            book.userid= result.user_id
+                            book.imgs= [result.imgUrl]
+    
+                         }
+                      })
+                resolve(book)
+            
             } else {
-                reject(new Error('hacking try. not this time'))
+                reject(error)
             }
         }).catch(error => {
+            //delete client.close()
             reject(error)
         })
     })
+}
+//===================================================================//
+    function userBooks(userid) {
+        return new Promise((resolve, reject) => {
+            runQuery(`SELECT books.*,imgs.* FROM books INNER JOIN imgs On books.id=imgs.bookId WHERE books.user_id=${userid}`).then((results) => {
+                console.log(results);
+                const books = []
+    
+                results.forEach(result => {
+                    let book = books.find(element => element.id === result.bookId)
+                    if (book) {
+                        book.imgs.push(result.imgUrl)
+                    } else {
+                        books.push({
+                            id: result.bookId,
+                            title: result.Title,
+                            description: result.Description,
+                            pdfUrl: result.pdf_url,
+                            userid: result.user_id,
+                            imgs: [result.imgUrl]
+    
+                        })
+    
+                    }
+                })
+                resolve(books)
+            })
+        }).catch(error => {reject(error)})
+        
+    }
+    //=============================================================================//
 
-}
-module.exports = {
-    registerUser,
-    checkUser,
-    addBook,
-    getAllBooks,
-    getBook,
-    userBooks,
-    updateBook,
-    deleteBook
-}
+    function updateBook(bookid, newBookTitle, oldImgsUrls, bookDescription, newPdfBook, newImgs, userid) {
+        return new Promise((resolve, reject) => {
+            try {
+
+
+                (async () => {
+                    let oldBookData = await getBook(bookid)
+                    const deletedImgs = []
+                    const keepImgs = []
+                    // get update version number
+                    // let updateNum = 1
+                    // if(oldBookData.update){
+                    //     updateNum = oldBookData.update +1
+                    // }
+
+                    // check which images user wants to keep and which to delete
+                    oldBookData.imgs.forEach(img => {
+                        if (oldImgsUrls.indexOf(img) >= 0) {
+                            keepImgs.push(img)
+                        } else {
+                            deletedImgs.push(img)
+                        }
+                    })
+                    // save new images to file system and to array to be saved to db
+                    let newImgsQuery = ''
+                    const current =Date.now()
+                    newImgs.forEach((img, idx) => {
+                        const imgExt = img.name.substr(img.name.lastIndexOf('.'))
+                        const newImgName = newBookTitle.trim().replace(/ /g, '_') + '_' + userid + '_' + idx + '_' + (current + 1) + imgExt
+                        let newImgUrl = '/uploadedfiles/' + newImgName
+                        newImgsQuery+=`INSERT INTO imgs (imgUrl,bookId) VALUES ('${newImgUrl}',${bookid});`
+                        img.mv('./public/uploadedfiles/' + newImgName)
+                    })
+                    // delete the deleted images files from the system
+                    let deleteImgsQuery=''
+                    deletedImgs.forEach(file => {
+                        // first check file is exist
+                        deleteImgsQuery+=`DELETE FROM imgs WHERE imgUrl LIKE '${file}' AND bookId=${bookid};`
+                        if (fs.existsSync('./public' + file)) {
+                            fs.unlinkSync('./public' + file)
+                        }
+                    })
+                    // check if user upload a new pdf file and move it to the same place of the old one so it will OVERWRITE it
+                    if (newPdfBook) {
+                        newPdfBook.mv('./public' + oldBookData.pdfUrl)
+                    }
+                    // await connect()
+                    // delete const db = client.db('test1')
+                   await runQuery(`UPDATE books SET Title='${newBookTitle}',Description='${bookDescription}'WHERE id=${bookid};` + deleteImgsQuery + newImgsQuery)
+                   resolve()
+                })()
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    function deleteBook(bookid, userid) {
+        return new Promise((resolve, reject) => {
+            getBook(bookid).then(book => {
+                // check if the book belong to the current login user
+                if (book.userid === userid) {
+                    // delete book images
+                    book.imgs.forEach(img => {
+                        //check the img file is exist then delete it
+                        if (fs.existsSync('./public' + img)) {
+                            fs.unlinkSync('./public' + img)
+                        }
+                    })
+                    // delete pdf file
+                    // check if pdf file is exist then delete it
+                    if (fs.existsSync('./public' + book.pdfUrl)) {
+                        fs.unlinkSync('./public' + book.pdfUrl)
+                    }
+                    // connect().then(client => {
+                    // const db = client.db('test1')
+                    Books.deleteOne({
+                        _id: bookid
+                    }).then(() => {
+                        // client.close()
+                        resolve()
+                    }).catch(error => {
+                        // client.close()
+                        reject(error)
+                    })
+                    // }).catch(error => {
+                    //     reject(error)
+                    // })
+                } else {
+                    reject(new Error('hacking try. not this time'))
+                }
+            }).catch(error => {
+                reject(error)
+            })
+        })
+
+    }
+    module.exports = {
+        registerUser,
+        checkUser,
+        addBook,
+        getAllBooks,
+        getBook,
+        userBooks,
+        updateBook,
+        deleteBook
+    }

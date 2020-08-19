@@ -18,14 +18,7 @@ app.post('/register',(req,res)=>{
     const email=req.body.email;
     const password=req.body.password;
     const rePassword= req.body.rePassword
-    if (name&& email&&password==rePassword) {
-        dataModule.registerUser(name,email,password).then(()=>{
-            res.send( 'successful register')
-        }).catch((error)=>{
-            res.send(error.massage
-                )
-        })
-    }
+    
 })
 app.listen(5360, () => {
     console.log('App listening on port 5360!');

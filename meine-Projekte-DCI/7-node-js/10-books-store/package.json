@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon --ignore '*.json' app.js"
+    "test": "nodemon --ignore '*.json' app.js",
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",

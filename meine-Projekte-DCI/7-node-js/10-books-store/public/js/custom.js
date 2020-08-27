@@ -52,3 +52,13 @@ function showModal(error, title, content) {
   $('#resultModal').modal('show')
 }
 
+
+function btnWait(btn, wait, text) {
+  btn.innerHTML = text
+  if (wait) {
+    btn.disabled = true
+  } else {
+    btn.disabled = false
+  }
+}
+

@@ -5,7 +5,7 @@ const cookie = require('cookie-parser')
 const fs = require('fs')
 
 // include dataModule
-const dataModule = require('./modules/mySqlDataModules')
+const dataModule = require('./modules/mysqlDataModule')
 const adminRouter = require('./routes/adminRoutes')
 
 const app = express()
@@ -71,11 +71,9 @@ app.get('/login', (req, res) => {
     
 });
 app.post('/login', (req, res) => {
-    console.log(req.body);
     if (req.body.email && req.body.password) {
         dataModule.checkUser(req.body.email.trim(), req.body.password).then(user => {
             req.session.user = user
-            console.log(user)
             res.json(1)
         }).catch(error => {
             if (error == 3) {
@@ -89,32 +87,12 @@ app.post('/login', (req, res) => {
     }
     
 });
-
-
-// app.get('/connect', (req, res) => {
-//     // check if mongoose is already connected to database
-//     if (mongoose.connection.readyState === 1) {
-//         res.send('Already connected');
-//     } else {
-//         mongoose.connect(connectionString, {
-//             useCreateIndex: true,
-//             useNewUrlParser: true
-//         }).then(() => {
-//             res.send('it is connected now');
-//         }).catch(error => {
-//             res.send(error);
-//         })
-//     }
-// });
  
 // shop route
 app.get('/shop', (req, res) => {
     dataModule.getAllBooks().then(blabooks => {
         res.render('shop', {books: blabooks})
-    }).catch(error => {
-        res.send('Wrong page ')
-    }
-        )
+    })
     
 });
 
@@ -131,5 +109,5 @@ app.get('/book/:booktitle/:id', (req, res) => {
     })
 });
 app.listen(4000, () => {
-    console.log('App listening on port 4000!');
+    console.log('App listening on port 3000!');
 });

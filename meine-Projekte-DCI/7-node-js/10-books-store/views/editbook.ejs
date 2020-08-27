@@ -36,10 +36,10 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
                             <li class="navbar-item">
-                                <a href="/" class="nav-link">Home</a>
+                                <a href="index.html" class="nav-link">Home</a>
                             </li>
                             <li class="navbar-item">
-                                <a href="/shop" class="nav-link">Shop</a>
+                                <a href="shop.html" class="nav-link">Shop</a>
                             </li>
                             <li class="navbar-item">
                                 <a href="about.html" class="nav-link">About</a>
@@ -133,7 +133,7 @@
                     <div class="navigation">
                         <h4>Navigation</h4>
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="privacy-policy.html">Privacy Policy</a></li>
                             <li><a href="terms-conditions.html">Terms</a></li>
@@ -354,16 +354,6 @@ style_formats: [{
 ]
 });
 
-function btnWait(btn,wait,text) {
-            if (wait) {
-                btn.disabled =true
-                btn.innerHTML = text
-            }else{
-                btn.disabled= false
-                btn.innerHTML = text
-            }
-        }
-   
 
 document.querySelectorAll('.deleteImg').forEach(element => {
         element.addEventListener('click', e => {
@@ -371,7 +361,6 @@ document.querySelectorAll('.deleteImg').forEach(element => {
             e.target.parentElement.remove()
         })
     })
-    
     document.querySelector('#deletePdf').addEventListener('click', e => {
         e.preventDefault()
         e.target.parentElement.remove()
@@ -381,10 +370,6 @@ document.querySelectorAll('.deleteImg').forEach(element => {
 
     document.querySelector('#bookSaveBtn').addEventListener('click', e => {
         e.preventDefault()
-
-     
-
-
         const bookTitle = document.querySelector('#bookTitleInp').value.trim()
         if (!bookTitle) {
             showModal(true, 'Book title is empty', 'Book Title should not be empty')
@@ -431,12 +416,13 @@ document.querySelectorAll('.deleteImg').forEach(element => {
         }
         // get book description from html editor tinymce and append it to fd
         fd.append('bookDescription', tinymce.get("bookDescriptionInp").getContent())
-        btnWait(e.target,true,'...saving')
+        // disable save btn
+        btnWait(e.target, true, 'Saving...')
         fetch('/admin/editbook',{
             method: 'POST',
             body: fd
         }).then(response => {
-            btnWait(e.target,false,'save')
+            btnWait(e.target, false, 'Save')
             if (response.status == 200) {
                 response.json().then(data => {
                     if (data === 1) {
@@ -451,8 +437,8 @@ document.querySelectorAll('.deleteImg').forEach(element => {
                 showModal(true, 'Error', 'can not send the data')
             }
         }).catch(error => {
-            btnWait(e.target,false,'save')
             showModal(true, 'Error', 'can not send the data')
+            btnWait(e.target, false, 'Save')
         })
 
     })

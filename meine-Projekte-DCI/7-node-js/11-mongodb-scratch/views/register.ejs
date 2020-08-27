@@ -6,61 +6,58 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" name="" id="usernameInp" placeholder="User name">
+    <input type="text" name="" id="usernameinp" placeholder="username">
     <br>
-    <input type="text" name="" id="passwordInp" placeholder="passworld">
+    <input type="text" name="" id="password">
     <br>
     <button id="register">register</button>
-</body>
-<script>
-    document.querySelector('#register').addEventListener('click',e =>{
-        e.preventDefault()
-        const username = document.querySelector('#usernameInp').value.trim();
-        const password = document.querySelector('#passwordInp').value.trim();
-        if (username&&password) {
-            const sentObj={
-                username,
-                password
-            }
-
-            fetch('/register',{
-                method:'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body:JSON.stringify(sentObj)
-            }).then(respons=>{
-                if (respons.status===200) {
-                   respons.json().then(data=>{
-                    console.log(data);
-                     if (data===1) {
-                        alert('your register success')
-                        document.querySelector('#usernameInp').value='';
-                        document.querySelector('#passwordInp').value=''
-                     }else{
-                         if (data==3) {
-                             alert('user is exist')
-                         }else{
-                              alert('somthing went wrong please try again later')
-                         }
-                       
-                 }
-                    
-                }) .catch(error=>{
-                    alert('unknown respons')
-                })
-                }else{
-                    alert('can not send data')
+    <script>
+        document.querySelector('#register').addEventListener('click', e => {
+            e.preventDefault()
+            const usernameElement = document.querySelector('#usernameinp')
+            const passwordElement = document.querySelector('#password')
+            if(usernameElement.value.trim() && passwordElement.value &&  usernameElement.value.trim().length > 5) {
+                const sendData = {
+                    username: usernameElement.value.trim(),
+                    password: passwordElement.value
                 }
-                
-            }).catch(error=>{
-                console.log(error);
-                
-            })
-            
-        }
+                fetch('/register',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sendData)
+                }).then(response => {
+                    if (response.status === 200) {
+                        response.json().then(data => {
+                            if(data === 1) {
+                                alert('you are registered successfuly')
+                                usernameElement.value =''
+                                passwordElement.value = ''
+                            } else {
+                                if (data === 3){
+                                    alert('user is exist ')
 
-    })
-</script>
+                                } else {
+                                    alert('something went wrong please try again later')
 
+                                }
+                            }
+                        }).catch(error => {
+                            alert('unknown response from the server')
+                        })
+                    } else {
+                        alert('can not send data')
+                    }
+                }).catch(error => {
+                    alert('can not send data')
+                })
+            } else{
+                alert('fill the inputs please and try again')
+            }
+        })
+    </script>
+
+    
+</body>
 </html>

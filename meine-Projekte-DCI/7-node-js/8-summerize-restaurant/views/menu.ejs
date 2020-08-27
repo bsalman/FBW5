@@ -38,8 +38,7 @@
                             <img src="<%= meals[i].imgUrl%>" alt="">
                         </div>
                         <div class="info">
-                            
-                            <h3> <a href="/meal/<%= meals[i].title.trim().replace(/ /g,'_') %>" ><%= meals[i].title%></a> </h3>
+                            <h3><a href="/meal/<%=meals[i].title.trim().replace(/ /g, '_')%>"> <%= meals[i].title%></a></h3>
                             <p><%= meals[i].description%></p>
                             <span>$<%= meals[i].price%></span>
                         </div>

@@ -4,7 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 // mongodb+srv://[USERNAME]:[PASSWORD]S@cluster0-[Diffrent depend on the cluster].mongodb.net/[DATABASE NAME]?retryWrites=true&w=majority
-const connectionString = 'mongodb+srv://user1:Rbt6CCjKCHdYYwfe@cluster0.jufz4.mongodb.net/test1?retryWrites=true&w=majority'
+const connectionString = 'mongodb+srv://bla_user:FpLBo3HYYIhfL1US@cluster0-rmrmn.mongodb.net/bla_db?retryWrites=true&w=majority'
 const app = express()
 
 

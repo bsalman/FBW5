@@ -4,44 +4,50 @@ const fs = require('fs')
 const adminRoute = require('./routs/adminRoute')
 const fileupload = require('express-fileupload')
 const session = require('express-session')
-//create cookie
 const cookie = require('cookie-parser')
+
+
 const app = express();
-//create session object optiones
-const sessionOption ={
-    secret:'burger',
-    cookie:{
-      
-    }
+
+// create session object options
+const sessionOptions = {
+    secret: 'burger',
+    cookie: {}
 }
-//use the session 
-app.use(session (sessionOption));
-//use cookie parser
+// use a session
+app.use(session(sessionOptions))
+
+// use cookie parser
 app.use(cookie())
+
 // set fileupload middleware
 app.use(fileupload({
     limits: { fileSize: 50 * 1024 * 1024 }
 }))
-// use express urlencoder to get posted data and parser req data and convertet to jeson
+
+// use express urlencoder to get posted data
 app.use(express.urlencoded({extended: false}));
 // use express.json() to get posted json data and converted to object inside the body
 app.use(express.json())
-// use express to set public file 
+
 app.use(express.static('./public'));
-// set ejs as view engine 
+
 app.set('view engine', 'ejs');
-// set views file as file for ejs 
 app.set('views',__dirname + '/views');
-// rendering main file  as main page  
+
 app.get('/', (req, res) => {
     res.render('main');
 });
-// reading json file using fs to get the adta from this file 
+
+
+// app.get('/home/subhome', (req, res) => {
+//     res.render('main');
+// });
 const jsonText = fs.readFileSync(__dirname + '/meals.json')
-// change the data inside json file to object
 const myMeals = JSON.parse(jsonText)
-// admin route as sub route 
+
 app.use('/admin',adminRoute.adminBurgerRouter(myMeals))
+
 // app.get('/admin/addmeal', (req, res) => {
 //     // const jsonText = fs.readFileSync(__dirname + '/meals.json')
 //     // const myMeals = JSON.parse(jsonText)
@@ -69,74 +75,77 @@ app.use('/admin',adminRoute.adminBurgerRouter(myMeals))
 //     res.redirect('/admin/addmeal')
 
 // });
-//============== login start==============================//
-app.get('/login',(req,res)=>{
-    //check saved cookies in req
+app.get('/login', (req, res) => {
+    // check saved cookies in req
     console.log(req.cookies);
-    if (req.cookies.burgerUser) {
-        const jsonText=fs.readFileSync(__dirname+'/users.json')
+    if (req.cookies.burgerUser){
+        const jsonText = fs.readFileSync(__dirname + '/users.json')
         const users = JSON.parse(jsonText)
-        const foundUser= users.find(user=>user.username==req.cookies.burgerUser.username && user.password==req.cookies.burgerUser.password)
-        if (foundUser) {
-            req.session.user=foundUser
+        const foundUser = users.find(user => user.username == req.cookies.burgerUser.username &&
+             user.password == req.cookies.burgerUser.password)
+        if (foundUser){
+            req.session.user = foundUser
             res.redirect('/admin')
-        }else{
+        } else {
             res.render('login')
         }
-
-    }else{
+    } else {
         res.render('login')
     }
     
-})
-app.post('/login',(req,res)=>{
-    console.log(req.body);
-    const jsonText=fs.readFileSync(__dirname+'/users.json')
     
-    const users = JSON.parse(jsonText)
-    console.log(sessionOption);
-    // let check= false
-    // for (let i = 0; i < users.length; i++) {
-    //    if (req.body.userName ==users[i].username&& req.body.Password==users[i].password) {
-    //        check= true;
-    //        break
-    //    }
-    // }
-    // if (check) {
-    //     res.json("exist")
-        
-    // }else{
-    //     res.json('notexist')
-    // }
-    const foundUser= users.find(user=>user.username==req.body.username && user.password==req.body.Password)
-      if (foundUser) {
-          req.session.user=foundUser
-          // saving the cookies
-          res.cookie("burgerUser",foundUser,{maxAge:600000,httpOnly:true})
-     res.json("exist")  
-     }else{
-       res.json('notexist')
-    }
-})
-//============== login end==============================//
-//============== logout start==============================//
- app.get('/logout',(req,res)=>{
-     //destroy the session and logout 
-     req.session.destroy()
-     //clear cookie on logout
-     res.clearCookie('burgerUser')
-     res.redirect('/')
- })
- //============== logout end==============================//
+});
+app.get('/logout', (req, res) => {
+    // destroy the session and log out
+    req.session.destroy()
+    // clear cookie on logout
+    res.clearCookie('burgerUser')
+    res.redirect('/')
+});
 
- //===================== menu start=====================//
+app.post('/login', (req, res) => {
+    // code here
+    //console.log(req.session)
+    const jsonText = fs.readFileSync(__dirname + '/users.json')
+    const users = JSON.parse(jsonText)
+    //console.log(users)
+
+    // using for loop
+    // let check = false
+    // for (let i = 0; i < users.length; i++) {
+    //     if (req.body.userName == users[i].username && req.body.password == users[i].password){
+    //         check = true
+    //         break;
+    //     }
+        
+    // }
+    // if (check){
+    //     res.json("exist")
+    // } else {
+    //     res.json('notexisit')
+    // }
+
+    // using es6 array find
+    const foundUser = users.find(user => user.username == req.body.userName && user.password == req.body.password)
+    if (foundUser){
+        req.session.user = foundUser
+        // set burgerUser Cookie to use it on login page next time
+        //res.cookie("burgerUser", foundUser, {maxAge: 60000})
+        res.cookie("burgerUser", foundUser, {maxAge: 6000000, httpOnly: true})
+
+        res.json("exist")
+        
+    } else {
+        res.json('notexisit')
+    }
+
+});
+
 app.get('/menu', (req, res) => {
     // const jsonText = fs.readFileSync(__dirname + '/meals.json')
     // const myMeals = JSON.parse(jsonText)
     res.render('menu', {meals: myMeals})
 });
-//============== menu end==============================//
-//============== contact start==============================//
 app.get('/contact', (req, res) => {
     res.render('contact', {sent: 1})
 });
@@ -158,7 +167,6 @@ app.post('/contact', (req, res) => {
     
    
 });
-//============== contact end ==============================//
 app.post('/contact1', (req, res) => {
     console.log(req.body);
     const name = req.body.name
@@ -179,45 +187,40 @@ app.post('/contact1', (req, res) => {
     
    
 });
-//============== logout end==============================//
-//============== meal start==============================//
-// app.get('/meal/:id',(req,res)=>{
-//     // res.send(req.params.id)
-//     const idx =req.params.id
+// get meal using id
+// app.get('/meal/:id', (req, res) => {
+//     //res.send(req.params.id);
+//     const idx = req.params.id
+//     if (myMeals[idx]){
+//     res.render('meal', {
+//         mealTitle: myMeals[idx].title,
+//         mealPrice: myMeals[idx].price,
+//         mealDescription: myMeals[idx].description,
+//         mealImg: myMeals[idx].imgUrl
+//     })
+// } else {
+//     res.send("dont dont dont");
+// }
+// });
 
-//    if(myMeals[idx]){
-//        res.render('meal',{
-//                       mealTitle:myMeals[idx].title,
-//                        mealPrice:myMeals[idx].price,
-//                       mealImg:myMeals[idx].imgUrl,
-//                       mealDescription:myMeals[idx].description})
-//    }else{
-//        res.send("you mother fucker don't play hier")
-//    }
+// get meal using title
+app.get('/meal/:title', (req, res) => {
+    //res.send(req.params.id);
+    const mealtitle = req.params.title
+    const foundMeal = myMeals.find(meal => meal.title.trim().replace(/ /g, '_') == mealtitle)
+    if (foundMeal){
+    res.render('meal', {
+        mealTitle: foundMeal.title,
+        mealPrice: foundMeal.price,
+        mealDescription: foundMeal.description,
+        mealImg: foundMeal.imgUrl,
+        mealDetails: foundMeal.details
+    })
+} else {
+    res.send("dont dont dont");
+}
+});
 
-    
-// })
-app.get('/meal/:title',(req,res)=>{
-    // res.send(req.params.id)
-    const mealtitle =req.params.title
-   
-    const foundMeal = myMeals.find(meal=>meal.title.trim().replace(/ /g,'_')==mealtitle)
-   if(foundMeal){
-       res.render('meal',{
-                      mealTitle:foundMeal.title,
-                       mealPrice:foundMeal.price,
-                      mealImg:foundMeal.imgUrl,
-                      mealDescription:foundMeal.description,
-                      mealdetail:foundMeal.details
-                    }
-                      )
-   }else{
-       res.send("you mother fucker don't play hier")
-   }
-
-    
-})
-//============== meal end==============================//
-app.listen(4000, () => {
+app.listen(5000, () => {
     console.log('App listening on port 3000!');
 });

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <div>
+        first name : <input type="text" placeholder="First Name" id="fnameInp"><br>
+        last name : <input type="text" placeholder="Last Name" id="lnameInp"><br>
+        password : <input type="password" id="passwordInp"><br>
+        repassword : <input type="password" id="repasswordInp"><br>
+        Email : <input type="text" id="emailInp"><br>
+        <button id="registerBtn">Register</button>
+
+    </div>
+    <script>
+        document.querySelector('#registerBtn').addEventListener('click', e => {
+            e.preventDefault()
+            const fnameElement = document.querySelector('#fnameInp')
+            const lnameElement = document.querySelector('#lnameInp')
+            const passwordElement = document.querySelector('#passwordInp')
+            const repasswordElement = document.querySelector('#repasswordInp')
+            const emailElement = document.querySelector('#emailInp')
+            if (
+                fnameElement.value.trim() &&
+                lnameElement.value.trim() &&
+                passwordElement.value &&
+                emailElement.value.trim()
+            ) {
+                if (passwordElement.value === repasswordElement.value) {
+                    const sendData = {
+                        fname: fnameElement.value,
+                        lname: lnameElement.value,
+                        password: passwordElement.value,
+                        email: emailElement.value
+                    }
+                    fetch('/register', {
+                        method: 'POST',
+                        headers:{
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(sendData)
+                    }).then(response => {
+                        if (response.status == 200) {
+                            response.json().then(data => {
+                                if (data === 1) {
+                                    alert('to complete yourregistration pleae check your email to verfy your email Address')
+                                    fnameElement.value = ''
+                                    lnameElement.value = ''
+                                    passwordElement.value = ''
+                                    repasswordElement.value = ''
+                                    emailElement.value = ''
+                                } else {
+                                    alert('something was wrong ')
+                                }
+                            }).catch(error => {
+                                alert('unknown responsefrom the server')
+                            })
+                        } else {
+                            alert('can not send data')
+                        }
+                    }).catch(error => {
+                        alert('can not sendthe data')
+                    })
+                } else {
+                    alert('password dose not match the repassword field')
+                }
+            } else {
+                alert('some entries are missing')
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>

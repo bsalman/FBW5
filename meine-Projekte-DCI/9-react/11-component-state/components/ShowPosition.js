@@ -2,7 +2,7 @@ import React from 'react';//mandatory
 import getPosition from '../services/geolocation';
 
 class ShowPosition extends React.Component{
-    state={lat:null}
+    state={lat:null,error:null}
     constructor(props){
         super(props)
         //this.state={time:null}               
@@ -17,13 +17,30 @@ class ShowPosition extends React.Component{
         })
     }
 
-    render(){ return(
-        <div>
-            <div> your latitude is :{this.state.lat}  </div> 
-        <div>error:{this.state.error}</div>
-        </div>
-        
-    )
+    render(){ 
+
+            if(this.state.lat===null && this.state.error===null){
+                return(
+                    <div>
+                        loading...
+                    </div>
+                    
+                )
+            }
+            if(this.state.lat===null && this.state.error!==null){
+                return(
+                    <div>error:{this.state.error}</div>
+                    
+                )
+            }
+            if(this.state.lat!==null && this.state.error===null){
+                return(
+                    <div> your latitude is :{this.state.lat}  </div>
+                    
+                )
+            }
+
+      
    
     }
    

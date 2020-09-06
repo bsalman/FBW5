@@ -1,5 +1,5 @@
 import React from 'react'
-import SingleImage from '../components/SingleImage'
+import SingleImage from './SingleImage'
 
 class ShowImages extends React.Component{
     render(){
@@ -12,7 +12,8 @@ class ShowImages extends React.Component{
         let imagesElements = []
         this.props.images.forEach((image, idx) => {
             imagesElements.push(
-                <SingleImage key={idx } imageData={image}/>
+                        // <img key={idx}   src={image.previewURL} />
+                        <SingleImage key={idx} imageData={image} />
             )
         });
         return(

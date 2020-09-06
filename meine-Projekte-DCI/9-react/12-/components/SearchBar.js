@@ -1,7 +1,7 @@
 import React from 'react'
 
 class SearchBar extends React.Component{
-    state = {keyWord: null,color:null}
+    state = {keyWord: null, color: null}
     //onInputChange:(e){ 
     onkeyWordInputChange =  (e) => {
         //console.log(e.target.value);
@@ -9,24 +9,22 @@ class SearchBar extends React.Component{
         //console.log(this);
     }
     onColorSelectChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({color: e.target.value})
     }
     onFormSubmit = (e) => {
         e.preventDefault()
         // console.log(this.state.keyWord);
-        if(this.state.keyWord){
-            this.props.runSearch(this.state.keyWord,this.state.color)
+        if (this.state.keyWord) {
+            this.props.runSearch(this.state.keyWord, this.state.color, 1)
         }
-        
         
 
     }
-   
     
     render(){
         return(
-            <div className="ui segment">
+            <div>
                 <form className="ui form" onSubmit={this.onFormSubmit}>
                     <div className="field">
                         <label>{this.props.text}</label>
@@ -51,10 +49,8 @@ class SearchBar extends React.Component{
                             <option value="black">black</option> 
                             <option value="brown">brown</option>
                         </select>
-                        <br/>
-                        <button className="ui secondary basic button">Submit</button>
                     </div>
-
+                    <button className="ui positive basic button">Search</button>
                 </form>
             </div>
         )
